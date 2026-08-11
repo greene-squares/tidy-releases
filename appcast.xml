@@ -1,0 +1,15 @@
+<?xml version="1.0" standalone="yes"?>
+<rss xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle" version="2.0">
+    <channel>
+        <title>Tidy</title>
+        <item>
+            <title>0.2</title>
+            <pubDate>Tue, 11 Aug 2026 03:53:39 +0100</pubDate>
+            <sparkle:version>5</sparkle:version>
+            <sparkle:shortVersionString>0.2</sparkle:shortVersionString>
+            <sparkle:minimumSystemVersion>26.0</sparkle:minimumSystemVersion>
+            <sparkle:hardwareRequirements>arm64</sparkle:hardwareRequirements>
+            <enclosure url="https://github.com/greene-squares/tidy-releases/releases/latest/download/Tidy.dmg" length="2445319" type="application/octet-stream" sparkle:edSignature="oxIHKx/szbJAY+ehfcJy8aLtvOefNy2cFwUcRHiSV+wpTXQQ0umdz5v5jHc2BOSxiHkM3UrWIzBQYw27JlGFBg=="/>
+        </item>
+    </channel>
+</rss>
