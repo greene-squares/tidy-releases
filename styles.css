@@ -117,7 +117,7 @@ a { color: var(--accent); text-decoration: none; }
 @media (max-width: 600px) { .tbHideSm { display: none; } .stage { min-height: 264px; } }
 .edLayer { grid-area: 1/1; align-self: start; }
 .caret { display: inline-block; width: 2px; height: 1.05em; background: var(--accent); vertical-align: -2px; margin-left: 3px; animation: tCaret 1.05s steps(1) infinite; }
-.hl { border-radius: 6px; margin: -2px -6px; padding: 2px 6px; -webkit-box-decoration-break: clone; box-decoration-break: clone; }
+.hl { border-radius: 3px; margin: -2px 0; padding: 2px 0; -webkit-box-decoration-break: clone; box-decoration-break: clone; }
 
 /* Card-stack swap: the receding window snaps back quickly so it appears below
    at once; the rising window springs up over it (gentle overshoot). z-index
@@ -165,7 +165,7 @@ a { color: var(--accent); text-decoration: none; }
 @keyframes procTidyShow { 0%,11.5% { opacity:0; transform:translateX(-50%) scale(0.94) } 12.5%,15% { opacity:1; transform:translateX(-50%) scale(1) } 15.7%,100% { opacity:0; transform:translateX(-50%) scale(0.97) } }
 @keyframes procSlopShow { 0%,47.5% { opacity:0; transform:translateX(-50%) scale(0.94) } 48.5%,51% { opacity:1; transform:translateX(-50%) scale(1) } 51.7%,100% { opacity:0; transform:translateX(-50%) scale(0.97) } }
 @keyframes toastTidyShow { 0%,15.5% { opacity:0; transform:translateX(-50%) translateY(8px) } 17%,26% { opacity:1; transform:translateX(-50%) translateY(0) } 28%,100% { opacity:0; transform:translateX(-50%) translateY(8px) } }
-@keyframes toastSlopShow { 0%,51.5% { opacity:0; transform:translateX(-50%) translateY(8px) } 53%,64% { opacity:1; transform:translateX(-50%) translateY(0) } 66%,100% { opacity:0; transform:translateX(-50%) translateY(8px) } }
+@keyframes toastSlopShow { 0%,51.5% { opacity:0; transform:translateX(-50%) translateY(8px) } 53%,72% { opacity:1; transform:translateX(-50%) translateY(0) } 74%,100% { opacity:0; transform:translateX(-50%) translateY(8px) } }
 @keyframes tCaret { 0%,50% { opacity:1 } 51%,100% { opacity:0 } }
 
 .demo-kbd { margin-top: 4px; }
