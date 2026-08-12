@@ -60,7 +60,7 @@ a { color: var(--accent); text-decoration: none; }
 .eyebrow { font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--accent); }
 .mono { font-family: 'JetBrains Mono', monospace; }
 .icon { position: relative; background: var(--iconbg); color: var(--iconink); font-family: 'JetBrains Mono', monospace; letter-spacing: -0.05em; display: flex; align-items: center; justify-content: center; }
-.icon::after { content:""; position:absolute; left:27%; right:27%; bottom:15%; height:13%; background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='10' viewBox='0 0 48 10'%3E%3Cpath d='M0 9 L8 2 L16 9 L24 2 L32 9 L40 2 L48 9' fill='none' stroke='%23e04b3f' stroke-width='2' stroke-linejoin='miter'/%3E%3C/svg%3E") center/100% 100% no-repeat; }
+.icon::after { content:""; position:absolute; left:27%; right:27%; bottom:15%; height:13%; background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='10' viewBox='0 0 48 10'%3E%3Cpath d='M0 9 L8 2 L16 9 L24 2 L32 9 L40 2 L48 9' fill='none' stroke='%23e04b3f' stroke-width='2.4' stroke-linejoin='miter'/%3E%3C/svg%3E") center/100% 100% no-repeat; }
 .card { background: var(--panel); box-shadow: inset 0 0 0 1px var(--hair); }
 .window { background: var(--winbg); border-radius: 20px; box-shadow: var(--shadow), inset 0 0 0 1px var(--hair); overflow: hidden; font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", system-ui, "Helvetica Neue", sans-serif; }
 .titlebar { display: flex; align-items: center; gap: 7px; height: 36px; padding: 0 14px; background: var(--winbar); border-bottom: 1px solid var(--winline); }
@@ -118,7 +118,7 @@ a { color: var(--accent); text-decoration: none; }
 @media (max-width: 600px) { .tbHideSm { display: none; } .stage { min-height: 264px; } }
 .edLayer { grid-area: 1/1; align-self: start; }
 .caret { display: inline-block; width: 2px; height: 1.05em; background: var(--accent); vertical-align: -2px; margin-left: 3px; animation: tCaret 1.05s steps(1) infinite; }
-.hl { border-radius: 3px; margin: -2px 0; padding: 2px 0; -webkit-box-decoration-break: clone; box-decoration-break: clone; }
+.hl { border-radius: 5px; margin: -2px 0; padding: 2px 0; -webkit-box-decoration-break: clone; box-decoration-break: clone; }
 
 /* Card-stack swap: the receding window snaps back quickly so it appears below
    at once; the rising window springs up over it (gentle overshoot). z-index
@@ -153,20 +153,26 @@ a { color: var(--accent); text-decoration: none; }
 @keyframes selTidy { 0% { background:transparent; animation-timing-function:step-end } 5% { background:var(--sel); animation-timing-function:step-end } 16% { background:transparent } 100% { background:transparent } }
 @keyframes selSlop { 0% { background:transparent; animation-timing-function:step-end } 41% { background:var(--sel); animation-timing-function:step-end } 52% { background:transparent } 100% { background:transparent } }
 
-.procPanel { position:absolute; left:50%; bottom:-16px; z-index:8; transform:translateX(-50%); display:inline-flex; align-items:center; padding:9px 16px; background:#17171a; border-radius:13px; box-shadow:0 22px 46px -18px rgba(0,0,0,0.62), inset 0 0 0 0.5px rgba(255,255,255,0.08); opacity:0; }
-.procTidy { animation:procTidyShow 18s ease-in-out infinite; }
-.procSlop { animation:procSlopShow 18s ease-in-out infinite; }
+.uToast { position:absolute; left:50%; bottom:-12px; z-index:8; transform:translateX(-50%); display:inline-grid; place-items:center; padding:9px 16px; background:#17171a; border-radius:13px; box-shadow:0 22px 46px -18px rgba(0,0,0,0.62), inset 0 0 0 0.5px rgba(255,255,255,0.08); white-space:nowrap; opacity:0; }
+.uToast > * { grid-area:1/1; }
+.uWork { display:inline-flex; align-items:center; }
+.uDone { color:#f4f4f5; font-size:13px; font-weight:500; letter-spacing:-0.01em; padding-bottom:11px; }
+.uTidy { animation:uTidyShow 18s ease-in-out infinite; }
+.uSlop { animation:uSlopShow 18s ease-in-out infinite; }
+.uTidy .uWork { animation:uWorkTidy 18s ease-in-out infinite; }
+.uTidy .uDone { animation:uDoneTidy 18s ease-in-out infinite; }
+.uSlop .uWork { animation:uWorkSlop 18s ease-in-out infinite; }
+.uSlop .uDone { animation:uDoneSlop 18s ease-in-out infinite; }
 .procTitle { position:relative; display:inline-block; font-size:13px; color:#f4f4f5; letter-spacing:-0.01em; padding-bottom:11px; }
 .procTitle::after { content:""; position:absolute; left:-12px; right:-12px; bottom:0; height:8px; background-repeat:repeat-x; background-position:0 bottom; background-size:16px 8px; background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='8'%3E%3Cpath d='M0 4 Q 4 1.5 8 4 T 16 4' fill='none' stroke='%23e04b3f' stroke-width='1.6' stroke-linecap='round'/%3E%3C/svg%3E"); animation:procWave .3s linear infinite; -webkit-mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent); mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent); }
 @media (prefers-reduced-motion:reduce) { .procTitle::after { animation:none; } }
-.toast { position:absolute; left:50%; bottom:-10px; z-index:8; transform:translateX(-50%); padding:9px 16px; background:#17171a; color:#f4f4f5; font-size:13px; font-weight:500; letter-spacing:-0.01em; border-radius:13px; box-shadow:0 22px 46px -18px rgba(0,0,0,0.62), inset 0 0 0 0.5px rgba(255,255,255,0.08); white-space:nowrap; opacity:0; }
-.toastTidy { animation:toastTidyShow 18s ease-in-out infinite; }
-.toastSlop { animation:toastSlopShow 18s ease-in-out infinite; }
 @keyframes procWave { to { background-position:16px bottom } }
-@keyframes procTidyShow { 0%,11.5% { opacity:0; transform:translateX(-50%) scale(0.94) } 12.5%,15% { opacity:1; transform:translateX(-50%) scale(1) } 15.7%,100% { opacity:0; transform:translateX(-50%) scale(0.97) } }
-@keyframes procSlopShow { 0%,47.5% { opacity:0; transform:translateX(-50%) scale(0.94) } 48.5%,51% { opacity:1; transform:translateX(-50%) scale(1) } 51.7%,100% { opacity:0; transform:translateX(-50%) scale(0.97) } }
-@keyframes toastTidyShow { 0%,15.5% { opacity:0; transform:translateX(-50%) translateY(8px) } 17%,26% { opacity:1; transform:translateX(-50%) translateY(0) } 28%,100% { opacity:0; transform:translateX(-50%) translateY(8px) } }
-@keyframes toastSlopShow { 0%,51.5% { opacity:0; transform:translateX(-50%) translateY(8px) } 53%,72% { opacity:1; transform:translateX(-50%) translateY(0) } 74%,100% { opacity:0; transform:translateX(-50%) translateY(8px) } }
+@keyframes uTidyShow { 0%,11.5% { opacity:0; transform:translateX(-50%) scale(0.94) } 12.5%,25% { opacity:1; transform:translateX(-50%) scale(1) } 26.5%,100% { opacity:0; transform:translateX(-50%) scale(0.97) } }
+@keyframes uSlopShow { 0%,41% { opacity:0; transform:translateX(-50%) scale(0.94) } 42.5%,71% { opacity:1; transform:translateX(-50%) scale(1) } 72.5%,100% { opacity:0; transform:translateX(-50%) scale(0.97) } }
+@keyframes uWorkTidy { 0%,14% { opacity:1 } 16.5%,100% { opacity:0 } }
+@keyframes uDoneTidy { 0%,14.5% { opacity:0 } 17%,100% { opacity:1 } }
+@keyframes uWorkSlop { 0%,50% { opacity:1 } 52.5%,100% { opacity:0 } }
+@keyframes uDoneSlop { 0%,51% { opacity:0 } 53%,100% { opacity:1 } }
 @keyframes tCaret { 0%,50% { opacity:1 } 51%,100% { opacity:0 } }
 
 .demo-kbd { margin-top: 4px; }
