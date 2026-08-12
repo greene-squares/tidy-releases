@@ -153,7 +153,7 @@ a { color: var(--accent); text-decoration: none; }
 @keyframes selTidy { 0% { background:transparent; animation-timing-function:step-end } 5% { background:var(--sel); animation-timing-function:step-end } 16% { background:transparent } 100% { background:transparent } }
 @keyframes selSlop { 0% { background:transparent; animation-timing-function:step-end } 41% { background:var(--sel); animation-timing-function:step-end } 52% { background:transparent } 100% { background:transparent } }
 
-.uToast { position:absolute; left:50%; bottom:-12px; z-index:8; transform:translateX(-50%); display:inline-grid; place-items:center; padding:9px 16px; background:#17171a; border-radius:13px; box-shadow:0 22px 46px -18px rgba(0,0,0,0.62), inset 0 0 0 0.5px rgba(255,255,255,0.08); white-space:nowrap; opacity:0; }
+.uToast { position:absolute; left:50%; bottom:-12px; z-index:8; box-sizing:border-box; transform:translateX(-50%); display:inline-grid; grid-template-columns:minmax(0,1fr); place-items:center; padding:9px 16px; background:#17171a; border-radius:13px; box-shadow:0 22px 46px -18px rgba(0,0,0,0.62), inset 0 0 0 0.5px rgba(255,255,255,0.08); white-space:nowrap; overflow:hidden; opacity:0; }
 .uToast > * { grid-area:1/1; }
 .uWork { display:inline-flex; align-items:center; }
 .uDone { color:#f4f4f5; font-size:13px; font-weight:500; letter-spacing:-0.01em; padding-bottom:11px; }
@@ -167,8 +167,8 @@ a { color: var(--accent); text-decoration: none; }
 .procTitle::after { content:""; position:absolute; left:-12px; right:-12px; bottom:0; height:8px; background-repeat:repeat-x; background-position:0 bottom; background-size:16px 8px; background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='8'%3E%3Cpath d='M0 4 Q 4 1.5 8 4 T 16 4' fill='none' stroke='%23e04b3f' stroke-width='1.6' stroke-linecap='round'/%3E%3C/svg%3E"); animation:procWave .3s linear infinite; -webkit-mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent); mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent); }
 @media (prefers-reduced-motion:reduce) { .procTitle::after { animation:none; } }
 @keyframes procWave { to { background-position:16px bottom } }
-@keyframes uTidyShow { 0%,11.5% { opacity:0; transform:translateX(-50%) scale(0.94) } 12.5%,25% { opacity:1; transform:translateX(-50%) scale(1) } 26.5%,100% { opacity:0; transform:translateX(-50%) scale(0.97) } }
-@keyframes uSlopShow { 0%,41% { opacity:0; transform:translateX(-50%) scale(0.94) } 42.5%,71% { opacity:1; transform:translateX(-50%) scale(1) } 72.5%,100% { opacity:0; transform:translateX(-50%) scale(0.97) } }
+@keyframes uTidyShow { 0%,11.5% { opacity:0; transform:translateX(-50%) scale(0.94); width:78px } 12.5%,14.5% { opacity:1; transform:translateX(-50%) scale(1); width:78px } 17%,25% { opacity:1; transform:translateX(-50%) scale(1); width:121px } 26.5%,100% { opacity:0; transform:translateX(-50%) scale(0.97); width:121px } }
+@keyframes uSlopShow { 0%,41% { opacity:0; transform:translateX(-50%) scale(0.94); width:108px } 42.5%,50% { opacity:1; transform:translateX(-50%) scale(1); width:108px } 53%,71% { opacity:1; transform:translateX(-50%) scale(1); width:164px } 72.5%,100% { opacity:0; transform:translateX(-50%) scale(0.97); width:164px } }
 @keyframes uWorkTidy { 0%,14% { opacity:1 } 16.5%,100% { opacity:0 } }
 @keyframes uDoneTidy { 0%,14.5% { opacity:0 } 17%,100% { opacity:1 } }
 @keyframes uWorkSlop { 0%,50% { opacity:1 } 52.5%,100% { opacity:0 } }
@@ -201,7 +201,7 @@ a { color: var(--accent); text-decoration: none; }
 .doc pre { background: var(--raised); border-radius: 10px; padding: 16px 18px; overflow-x: auto; margin: 2px 0 0; }
 .doc pre code { background: none; padding: 0; font-size: 13px; line-height: 1.7; color: var(--ink); }
 
-.kbd { max-width: 800px; width: 100%; background: linear-gradient(#ededf0, #dedee2); border-radius: 18px; padding: 15px; display: flex; flex-direction: column; gap: 6px; box-shadow: inset 0 1px 0 rgba(255,255,255,0.85), 0 10px 24px -20px rgba(14,14,16,0.35), 0 0 0 1px rgba(14,14,16,0.08); }
+.kbd { max-width: 800px; width: 100%; background: linear-gradient(#ededf0, #dedee2); border-radius: 18px; padding: 15px; display: flex; flex-direction: column; gap: 6px; box-shadow: inset 0 1px 0 rgba(255,255,255,0.85), 0 2px 5px -2px rgba(14,14,16,0.32), 0 9px 18px -11px rgba(14,14,16,0.55), 0 0 0 1px rgba(14,14,16,0.08); }
 .krow { display: flex; gap: 6px; }
 .key { flex: 1 1 0; min-width: 0; height: 42px; background: linear-gradient(#ffffff, #f0f0f3); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", system-ui, "Helvetica Neue", sans-serif; font-size: 12px; font-weight: 500; color: #3d3d44; box-shadow: inset 0 -1px 1px rgba(14,14,16,0.05), 0 1.5px 2px rgba(14,14,16,0.16), 0 0 0 1px rgba(14,14,16,0.05); }
 .krow.fn .key { height: 25px; font-size: 9px; color: #8a8a90; }
