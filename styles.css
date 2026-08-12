@@ -152,23 +152,18 @@ a { color: var(--accent); text-decoration: none; }
 @keyframes selTidy { 0% { background:transparent; animation-timing-function:step-end } 5% { background:var(--sel); animation-timing-function:step-end } 16% { background:transparent } 100% { background:transparent } }
 @keyframes selSlop { 0% { background:transparent; animation-timing-function:step-end } 41% { background:var(--sel); animation-timing-function:step-end } 52% { background:transparent } 100% { background:transparent } }
 
-.procPanel { position:absolute; left:50%; bottom:-20px; z-index:8; transform:translateX(-50%); display:flex; align-items:center; gap:14px; min-width:280px; padding:15px 18px; background:var(--winbar); border-radius:16px; box-shadow:0 30px 70px -24px rgba(0,0,0,0.55), inset 0 0 0 1px var(--winline); opacity:0; }
+.procPanel { position:absolute; left:50%; bottom:-16px; z-index:8; transform:translateX(-50%); display:inline-flex; align-items:center; padding:9px 16px; background:#17171a; border-radius:13px; box-shadow:0 22px 46px -18px rgba(0,0,0,0.62), inset 0 0 0 0.5px rgba(255,255,255,0.08); opacity:0; }
 .procTidy { animation:procTidyShow 18s ease-in-out infinite; }
 .procSlop { animation:procSlopShow 18s ease-in-out infinite; }
-.procLogo { width:36px; height:36px; border-radius:10px; font-size:15px; box-shadow:inset 0 0 0 1px var(--iconinset); flex:none; }
-.procMeta { display:flex; flex-direction:column; gap:9px; flex:1; }
-.procTitle { font-family:'JetBrains Mono',monospace; font-size:12.5px; color:var(--winink); letter-spacing:-0.01em; }
-.wpBar { height:6px; border-radius:999px; background:var(--winline); overflow:hidden; }
-.wpFill { display:block; height:100%; width:0; border-radius:999px; background:var(--accent); }
-.wpFillTidy { animation:fillTidy 18s ease-in-out infinite; }
-.wpFillSlop { animation:fillSlop 18s ease-in-out infinite; }
-.toast { position:absolute; left:50%; bottom:-10px; z-index:8; transform:translateX(-50%); padding:9px 15px; background:#17171a; color:#fff; font-size:13px; font-weight:600; letter-spacing:-0.01em; border-radius:999px; box-shadow:0 14px 30px -12px rgba(0,0,0,0.6); white-space:nowrap; opacity:0; }
+.procTitle { position:relative; display:inline-block; font-size:13px; color:#f4f4f5; letter-spacing:-0.01em; padding-bottom:11px; }
+.procTitle::after { content:""; position:absolute; left:-12px; right:-12px; bottom:0; height:8px; background-repeat:repeat-x; background-position:0 bottom; background-size:16px 8px; background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='8'%3E%3Cpath d='M0 4 Q 4 1.5 8 4 T 16 4' fill='none' stroke='%23e04b3f' stroke-width='1.6' stroke-linecap='round'/%3E%3C/svg%3E"); animation:procWave .3s linear infinite; -webkit-mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent); mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent); }
+@media (prefers-reduced-motion:reduce) { .procTitle::after { animation:none; } }
+.toast { position:absolute; left:50%; bottom:-10px; z-index:8; transform:translateX(-50%); padding:9px 16px; background:#17171a; color:#f4f4f5; font-size:13px; font-weight:500; letter-spacing:-0.01em; border-radius:13px; box-shadow:0 22px 46px -18px rgba(0,0,0,0.62), inset 0 0 0 0.5px rgba(255,255,255,0.08); white-space:nowrap; opacity:0; }
 .toastTidy { animation:toastTidyShow 18s ease-in-out infinite; }
 .toastSlop { animation:toastSlopShow 18s ease-in-out infinite; }
+@keyframes procWave { to { background-position:16px bottom } }
 @keyframes procTidyShow { 0%,11.5% { opacity:0; transform:translateX(-50%) scale(0.94) } 12.5%,15% { opacity:1; transform:translateX(-50%) scale(1) } 15.7%,100% { opacity:0; transform:translateX(-50%) scale(0.97) } }
 @keyframes procSlopShow { 0%,47.5% { opacity:0; transform:translateX(-50%) scale(0.94) } 48.5%,51% { opacity:1; transform:translateX(-50%) scale(1) } 51.7%,100% { opacity:0; transform:translateX(-50%) scale(0.97) } }
-@keyframes fillTidy { 0%,12% { width:0 } 15.2%,100% { width:100% } }
-@keyframes fillSlop { 0%,48% { width:0 } 51.2%,100% { width:100% } }
 @keyframes toastTidyShow { 0%,15.5% { opacity:0; transform:translateX(-50%) translateY(8px) } 17%,26% { opacity:1; transform:translateX(-50%) translateY(0) } 28%,100% { opacity:0; transform:translateX(-50%) translateY(8px) } }
 @keyframes toastSlopShow { 0%,51.5% { opacity:0; transform:translateX(-50%) translateY(8px) } 53%,64% { opacity:1; transform:translateX(-50%) translateY(0) } 66%,100% { opacity:0; transform:translateX(-50%) translateY(8px) } }
 @keyframes tCaret { 0%,50% { opacity:1 } 51%,100% { opacity:0 } }
