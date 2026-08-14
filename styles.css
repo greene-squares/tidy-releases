@@ -14,6 +14,7 @@
   --sel-notes:rgba(255,204,0,0.30); --sel-msg:rgba(235,235,245,0.18); --sel-docs:rgba(66,133,244,0.38);
   --winbg:#1b1b20; --winbar:#25252b; --winink:#f4f4f5; --winline:rgba(244,244,245,0.08); --winmuted:rgba(244,244,245,0.45);
   --capdown:#141418;
+  --veil:rgba(14,14,16,0.72); --veil-0:rgba(14,14,16,0);
   --kbd-a:#33333a; --kbd-b:#232329; --key-a:#45454d; --key-b:#35353c;
   --key-ink:#eaeaec; --key-dim:#9d9da4;
   --key-shadow: inset 0 -1px 1px rgba(0,0,0,0.35), 0 1.5px 2px rgba(0,0,0,0.5), 0 0 0 1px rgba(0,0,0,0.55);
@@ -30,6 +31,7 @@
   --sel-notes:rgba(255,196,0,0.42); --sel-msg:rgba(60,60,67,0.16); --sel-docs:rgba(26,115,232,0.22);
   --winbg:#ffffff; --winbar:#e3e3e9; --winink:#141416; --winline:rgba(14,14,16,0.08); --winmuted:rgba(14,14,16,0.5);
   --capdown:#dcdce1;
+  --veil:rgba(244,244,246,0.72); --veil-0:rgba(244,244,246,0);
   --kbd-a:#ededf0; --kbd-b:#dedee2; --key-a:#ffffff; --key-b:#f0f0f3;
   --key-ink:#3d3d44; --key-dim:#8a8a90;
   --key-shadow: inset 0 -1px 1px rgba(14,14,16,0.05), 0 1.5px 2px rgba(14,14,16,0.16), 0 0 0 1px rgba(14,14,16,0.05);
@@ -47,6 +49,7 @@
     --sel-notes:rgba(255,196,0,0.42); --sel-msg:rgba(60,60,67,0.16); --sel-docs:rgba(26,115,232,0.22);
     --winbg:#ffffff; --winbar:#e3e3e9; --winink:#141416; --winline:rgba(14,14,16,0.08); --winmuted:rgba(14,14,16,0.5);
     --capdown:#dcdce1;
+    --veil:rgba(244,244,246,0.72); --veil-0:rgba(244,244,246,0);
     --kbd-a:#ededf0; --kbd-b:#dedee2; --key-a:#ffffff; --key-b:#f0f0f3;
     --key-ink:#3d3d44; --key-dim:#8a8a90;
     --key-shadow: inset 0 -1px 1px rgba(14,14,16,0.05), 0 1.5px 2px rgba(14,14,16,0.16), 0 0 0 1px rgba(14,14,16,0.05);
@@ -57,8 +60,13 @@
 
 * { box-sizing: border-box; }
 body { margin: 0; background-color: var(--bg);
-  background-image: radial-gradient(1100px 520px at 50% -8%, var(--glow), transparent 68%), url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='44' height='26'><path d='M0 13 q 11 -9 22 0 t 22 0' fill='none' stroke='%23c4453a' stroke-opacity='0.09' stroke-width='1.3'/></svg>");
-  background-repeat: no-repeat, repeat;
+  /* Layers paint front-to-back: the accent glow, then a soft veil that
+     diffuses the wave behind the content, then the wave itself. The veil
+     is what keeps the texture from reading as a hard repeating tile. */
+  background-image: radial-gradient(1100px 520px at 50% -8%, var(--glow), transparent 68%),
+    radial-gradient(1300px 820px at 50% 26%, var(--veil), var(--veil-0) 72%),
+    url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='44' height='26'><path d='M0 13 q 11 -9 22 0 t 22 0' fill='none' stroke='%23c4453a' stroke-opacity='0.09' stroke-width='1.3'/></svg>");
+  background-repeat: no-repeat, no-repeat, repeat;
   font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Segoe UI", system-ui, Arial, sans-serif; color: var(--ink); overflow-x: hidden; transition: background-color .2s ease, color .2s ease; }
 a { color: var(--accent); text-decoration: none; }
 ::selection { background: var(--sel); }
