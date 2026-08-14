@@ -11,6 +11,7 @@
   --hair:rgba(244,244,245,0.08); --hair2:rgba(244,244,245,0.10);
   --iconbg:#0a0a0b; --iconink:#f4f4f5; --iconinset:rgba(244,244,245,0.14);
   --sel:rgba(224,75,63,0.28); --glow:rgba(224,75,63,0.10);
+  --sel-notes:rgba(255,204,0,0.30); --sel-msg:rgba(48,209,88,0.30); --sel-docs:rgba(66,133,244,0.38);
   --winbg:#1b1b20; --winbar:#25252b; --winink:#f4f4f5; --winline:rgba(244,244,245,0.08); --winmuted:rgba(244,244,245,0.45);
   --capdown:#141418;
   --shadow:0 40px 80px -30px rgba(0,0,0,0.9);
@@ -22,6 +23,7 @@
   --hair:rgba(14,14,16,0.08); --hair2:rgba(14,14,16,0.12);
   --iconbg:#0a0a0b; --iconink:#f4f4f5; --iconinset:rgba(244,244,245,0.14);
   --sel:rgba(196,69,58,0.22); --glow:rgba(196,69,58,0.07);
+  --sel-notes:rgba(255,196,0,0.42); --sel-msg:rgba(52,199,89,0.30); --sel-docs:rgba(26,115,232,0.22);
   --winbg:#ffffff; --winbar:#e3e3e9; --winink:#141416; --winline:rgba(14,14,16,0.08); --winmuted:rgba(14,14,16,0.5);
   --capdown:#dcdce1;
   --shadow:0 30px 60px -30px rgba(14,14,16,0.28);
@@ -34,6 +36,7 @@
     --hair:rgba(14,14,16,0.08); --hair2:rgba(14,14,16,0.12);
     --iconbg:#0a0a0b; --iconink:#f4f4f5; --iconinset:rgba(244,244,245,0.14);
     --sel:rgba(196,69,58,0.22); --glow:rgba(196,69,58,0.07);
+    --sel-notes:rgba(255,196,0,0.42); --sel-msg:rgba(52,199,89,0.30); --sel-docs:rgba(26,115,232,0.22);
     --winbg:#ffffff; --winbar:#e3e3e9; --winink:#141416; --winline:rgba(14,14,16,0.08); --winmuted:rgba(14,14,16,0.5);
     --capdown:#dcdce1;
     --shadow:0 30px 60px -30px rgba(14,14,16,0.28);
@@ -48,6 +51,13 @@ body { margin: 0; background-color: var(--bg);
 a { color: var(--accent); text-decoration: none; }
 ::selection { background: var(--sel); }
 .wrap { max-width: 1120px; margin: 0 auto; }
+/* Section layouts live here rather than inline so the mobile layer can
+   override their padding. */
+.navWrap { padding: 22px 40px; display: flex; align-items: center; justify-content: space-between; }
+.heroWrap { padding: 40px 40px; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 26px; }
+.demoWrap { padding: 26px 40px 84px; display: flex; justify-content: center; }
+.pageWrap { padding: 60px 40px 96px; }
+.footWrap { padding: 28px 40px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; }
 .nlink { color: var(--sec); transition: color .15s ease; }
 .nlink:hover { color: var(--ink); }
 .btn { background: var(--accent); color: var(--btn-ink); font-weight: 600; border-radius: 9px; transition: background .15s ease; }
@@ -78,10 +88,10 @@ a { color: var(--accent); text-decoration: none; }
 
 .demo { width: 100%; display: flex; flex-direction: column; align-items: center; gap: 56px; }
 .stage { width: 100%; max-width: 800px; position: relative; min-height: 224px; }
-.stage > .window { position: absolute; inset: 0; display: flex; flex-direction: column; will-change: transform, filter; }
-.stage > .winTidy { animation: rotNotes 28s linear infinite; }
-.stage > .winMsg { animation: rotMsg 28s linear infinite; }
-.stage > .winSlop { animation: rotDocs 28s linear infinite; }
+.stage > .window { position: absolute; inset: 0; display: flex; flex-direction: column; will-change: transform, opacity, filter; }
+.stage > .winTidy { animation: rotNotes 28s linear infinite, fadeNotes 28s linear infinite; }
+.stage > .winMsg { animation: rotMsg 28s linear infinite, fadeMsg 28s linear infinite; }
+.stage > .winSlop { animation: rotDocs 28s linear infinite, fadeDocs 28s linear infinite; }
 .editor { flex: 1 1 auto; overflow: hidden; padding: 12px 26px; font-size: 17px; line-height: 1.55; color: var(--winink); }
 .edGrid { display: grid; align-content: start; }
 
@@ -118,8 +128,13 @@ a { color: var(--accent); text-decoration: none; }
 .cSpacer { flex: 1; }
 .send { width: 36px; height: 30px; padding: 6px 8px; color: #fff; background: #1c1c1e; border-radius: 8px; }
 .docsApp { background: var(--winbg); }
-.docsBar { height: 48px; gap: 10px; padding: 0 12px; background: var(--winbg); }
-.docIcon { width: 18px; height: 24px; flex: none; display: flex; align-items: center; }
+/* No traffic lights on this card — Docs is a browser app — so the icon needs
+   its own left inset clear of the window's rounded corner. */
+.docsBar { height: 48px; gap: 10px; padding: 0 14px 0 20px; background: var(--winbg); }
+/* viewBox is cropped to the artwork (5.5 2.5 13 19) so this box is the glyph
+   itself, sized to match the 26px collaborator avatars beside it. A square
+   viewBox would letterbox inside the box and cap the drawn height instead. */
+.docIcon { width: 17.8px; height: 26px; flex: none; display: flex; align-items: center; }
 .docIcon svg { width: 100%; height: 100%; }
 .docIcon .dpg { fill: #1a73e8; }
 .docIcon .dfold { fill: #a1c2fa; }
@@ -131,49 +146,91 @@ a { color: var(--accent); text-decoration: none; }
 .docPeople { display: flex; align-items: center; flex: none; }
 .docPeople > * { margin-left: -8px; box-shadow: 0 0 0 2px var(--winbg); }
 .docPeople > *:first-child { margin-left: 0; }
-.dpic { width: 26px; height: 26px; border-radius: 50%; overflow: hidden; flex: none; }
-.dpic svg { width: 100%; height: 100%; display: block; }
-.dpic1 { background: linear-gradient(160deg, #e2d3c2, #c7ac93); }
-.dpic2 { background: linear-gradient(160deg, #c3d0d8, #93aab8); }
 .docAvatar { width: 26px; height: 26px; border-radius: 50%; background: #7b61ff; color: #fff; font-size: 11px; font-weight: 600; letter-spacing: 0.02em; display: flex; align-items: center; justify-content: center; flex: none; }
+/* Collaborators are a mix of photos and initials, as a real Docs header is.
+   The faces are AI-generated (nobody real), inlined so the page still makes
+   no external requests. */
+.docPhoto { width: 26px; height: 26px; border-radius: 50%; overflow: hidden; flex: none; }
+.docPhoto img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .docShare { display: inline-flex; align-items: center; gap: 7px; height: 32px; padding: 0 15px 0 13px; background: #c2e7ff; color: #001d35; border-radius: 16px; font-size: 13px; font-weight: 500; flex: none; }
 .docShare svg { width: 15px; height: 15px; stroke: currentColor; stroke-width: 1.9; fill: none; stroke-linecap: round; stroke-linejoin: round; }
 .docEditor { background: color-mix(in srgb, var(--winink) 4.5%, var(--winbg)); padding: 12px 26px 0; overflow: hidden; }
 .docPage { background: var(--winbg); box-shadow: 0 1px 4px rgba(14,14,16,0.14), inset 0 0 0 1px var(--winline); border-radius: 3px 3px 0 0; padding: 18px 30px; height: 100%; font-size: 15px; line-height: 1.6; }
-@media (max-width: 600px) { .tbHideSm { display: none; } .stage { min-height: 264px; } }
+@media (max-width: 600px) { .tbHideSm { display: none; } }
 .edLayer { grid-area: 1/1; align-self: start; }
 .caret { display: inline-block; width: 2px; height: 1.05em; background: var(--accent); vertical-align: -2px; margin-left: 3px; animation: tCaret 1.05s steps(1) infinite; }
-.hl { border-radius: 5px; margin: -2px 0; padding: 2px 0; -webkit-box-decoration-break: clone; box-decoration-break: clone; }
+/* Square corners: a real text selection is a plain rectangle, not a pill. */
+.hl { border-radius: 0; margin: -2px 0; padding: 2px 0; -webkit-box-decoration-break: clone; box-decoration-break: clone; }
 
-/* Three-card rotation on one shared keyframe, phase-shifted per card via
-   animation-delay (0 / -8s / -16s). Each card holds front for its 8s beat,
-   snaps back to the stack, waits two beats, then springs up over the outgoing
-   card. z-index steps to 3 as a card rises so it always clears the one it
-   replaces. */
+/* Three-card carousel across one 28s clock. Beats are deliberately uneven —
+   Notes 0-20%, Messages 26-46%, Docs 52-94% — because the Docs slop is much
+   longer and needs the reading time.
+
+   A handoff is one movement, not a queue: at 20 / 46 / 94% all three cards
+   start moving on the same frame. The front card rises and fades out while
+   the one below rises into its place and the deep card steps up to mid.
+   The outgoing card clears 34px, so by the time it is faint enough to see
+   through, its titlebar sits well above the arriving card's and the two read
+   as separate rather than merged. Once invisible it jumps back to the deep
+   slot in the 0.4% gap after its exit and fades in there, so the reposition
+   is never seen. Three depths keep the third card peeking out below. */
 @keyframes rotNotes {
-  0% { transform:translateY(0) scale(1); filter:brightness(1); z-index:3 }
-  20% { transform:translateY(0) scale(1); filter:brightness(1); z-index:3; animation-timing-function:cubic-bezier(0.32,0,0.2,1) }
-  26% { transform:translateY(24px) scale(0.93); filter:brightness(0.85); z-index:1 }
-  93% { transform:translateY(24px) scale(0.93); filter:brightness(0.85); z-index:1 }
-  94% { transform:translateY(24px) scale(0.93); filter:brightness(0.85); z-index:3; animation-timing-function:cubic-bezier(0.34,1.5,0.5,1) }
-  100% { transform:translateY(0) scale(1); filter:brightness(1); z-index:3 }
+  0% { transform:translateY(0) scale(1); filter:brightness(1) blur(0px); z-index:4 }
+  20% { transform:translateY(0) scale(1); filter:brightness(1) blur(0px); z-index:5; animation-timing-function:cubic-bezier(0.2,0.5,0.5,1) }
+  22.4% { transform:translateY(-34px) scale(1); filter:brightness(1) blur(0px); z-index:5 }
+  22.8% { transform:translateY(38px) scale(0.9); filter:brightness(0.84) blur(0.9px); z-index:1 }
+  46% { transform:translateY(38px) scale(0.9); filter:brightness(0.84) blur(0.9px); z-index:1; animation-timing-function:cubic-bezier(0.25,0.55,0.4,1) }
+  49.4% { transform:translateY(20px) scale(0.95); filter:brightness(0.93) blur(0.3px); z-index:2 }
+  94% { transform:translateY(20px) scale(0.95); filter:brightness(0.93) blur(0.3px); z-index:2; animation-timing-function:cubic-bezier(0.32,1.2,0.5,1) }
+  97.4% { transform:translateY(0) scale(1); filter:brightness(1) blur(0px); z-index:4 }
+  100% { transform:translateY(0) scale(1); filter:brightness(1) blur(0px); z-index:4 }
 }
 @keyframes rotMsg {
-  0% { transform:translateY(24px) scale(0.93); filter:brightness(0.85); z-index:1 }
-  19% { transform:translateY(24px) scale(0.93); filter:brightness(0.85); z-index:1 }
-  20% { transform:translateY(24px) scale(0.93); filter:brightness(0.85); z-index:3; animation-timing-function:cubic-bezier(0.34,1.5,0.5,1) }
-  26% { transform:translateY(0) scale(1); filter:brightness(1); z-index:3 }
-  46% { transform:translateY(0) scale(1); filter:brightness(1); z-index:3; animation-timing-function:cubic-bezier(0.32,0,0.2,1) }
-  52% { transform:translateY(24px) scale(0.93); filter:brightness(0.85); z-index:1 }
-  100% { transform:translateY(24px) scale(0.93); filter:brightness(0.85); z-index:1 }
+  0% { transform:translateY(20px) scale(0.95); filter:brightness(0.93) blur(0.3px); z-index:2 }
+  20% { transform:translateY(20px) scale(0.95); filter:brightness(0.93) blur(0.3px); z-index:2; animation-timing-function:cubic-bezier(0.32,1.2,0.5,1) }
+  23.4% { transform:translateY(0) scale(1); filter:brightness(1) blur(0px); z-index:4 }
+  46% { transform:translateY(0) scale(1); filter:brightness(1) blur(0px); z-index:5; animation-timing-function:cubic-bezier(0.2,0.5,0.5,1) }
+  48.4% { transform:translateY(-34px) scale(1); filter:brightness(1) blur(0px); z-index:5 }
+  48.8% { transform:translateY(38px) scale(0.9); filter:brightness(0.84) blur(0.9px); z-index:1 }
+  94% { transform:translateY(38px) scale(0.9); filter:brightness(0.84) blur(0.9px); z-index:1; animation-timing-function:cubic-bezier(0.25,0.55,0.4,1) }
+  97.4% { transform:translateY(20px) scale(0.95); filter:brightness(0.93) blur(0.3px); z-index:2 }
+  100% { transform:translateY(20px) scale(0.95); filter:brightness(0.93) blur(0.3px); z-index:2 }
 }
 @keyframes rotDocs {
-  0% { transform:translateY(24px) scale(0.93); filter:brightness(0.85); z-index:1 }
-  45% { transform:translateY(24px) scale(0.93); filter:brightness(0.85); z-index:1 }
-  46% { transform:translateY(24px) scale(0.93); filter:brightness(0.85); z-index:3; animation-timing-function:cubic-bezier(0.34,1.5,0.5,1) }
-  52% { transform:translateY(0) scale(1); filter:brightness(1); z-index:3 }
-  94% { transform:translateY(0) scale(1); filter:brightness(1); z-index:3; animation-timing-function:cubic-bezier(0.32,0,0.2,1) }
-  100% { transform:translateY(24px) scale(0.93); filter:brightness(0.85); z-index:1 }
+  0% { transform:translateY(38px) scale(0.9); filter:brightness(0.84) blur(0.9px); z-index:1 }
+  20% { transform:translateY(38px) scale(0.9); filter:brightness(0.84) blur(0.9px); z-index:1; animation-timing-function:cubic-bezier(0.25,0.55,0.4,1) }
+  23.4% { transform:translateY(20px) scale(0.95); filter:brightness(0.93) blur(0.3px); z-index:2 }
+  46% { transform:translateY(20px) scale(0.95); filter:brightness(0.93) blur(0.3px); z-index:2; animation-timing-function:cubic-bezier(0.32,1.2,0.5,1) }
+  49.4% { transform:translateY(0) scale(1); filter:brightness(1) blur(0px); z-index:4 }
+  94% { transform:translateY(0) scale(1); filter:brightness(1) blur(0px); z-index:5; animation-timing-function:cubic-bezier(0.2,0.5,0.5,1) }
+  96.4% { transform:translateY(-34px) scale(1); filter:brightness(1) blur(0px); z-index:5 }
+  96.8% { transform:translateY(38px) scale(0.9); filter:brightness(0.84) blur(0.9px); z-index:1 }
+  100% { transform:translateY(38px) scale(0.9); filter:brightness(0.84) blur(0.9px); z-index:1 }
+}
+
+/* Opacity is a separate animation on the same 28s clock, so the card can hold
+   solid for the first moment of its lift and then fade as it keeps rising.
+   The lift itself must stay ONE keyframe segment: an intermediate stop gave
+   the two curves independent velocities, and an ease-out landing at zero
+   speed followed by an ease-in leaving from zero stalled the card mid-air,
+   which read as the exit happening in two beats. */
+@keyframes fadeNotes {
+  0%, 20.3% { opacity:1; animation-timing-function:cubic-bezier(0.4,0,0.6,1) }
+  22.2% { opacity:0 }
+  22.8% { opacity:0; animation-timing-function:ease }
+  25.5%, 100% { opacity:1 }
+}
+@keyframes fadeMsg {
+  0%, 46.3% { opacity:1; animation-timing-function:cubic-bezier(0.4,0,0.6,1) }
+  48.2% { opacity:0 }
+  48.8% { opacity:0; animation-timing-function:ease }
+  51.5%, 100% { opacity:1 }
+}
+@keyframes fadeDocs {
+  0%, 94.3% { opacity:1; animation-timing-function:cubic-bezier(0.4,0,0.6,1) }
+  96.2% { opacity:0 }
+  96.8% { opacity:0; animation-timing-function:ease }
+  100% { opacity:1 }
 }
 
 .tdTypo { animation: tdTypo 28s ease-in-out infinite; }
@@ -185,17 +242,22 @@ a { color: var(--accent); text-decoration: none; }
 .tdTypo .hl { animation: selTidy 28s linear infinite; }
 .msgSlop .hl { animation: selMsg 28s linear infinite; }
 .docSlop .hl { animation: selDocs 28s linear infinite; }
-@keyframes tdTypo { 0%,10% { opacity:1 } 13%,90% { opacity:0 } 93%,100% { opacity:1 } }
-@keyframes tdCrisp { 0%,10% { opacity:0 } 13%,90% { opacity:1 } 93%,100% { opacity:0 } }
-@keyframes msgSlop { 0%,39% { opacity:1 } 40%,90% { opacity:0 } 92%,100% { opacity:1 } }
-@keyframes msgCrisp { 0%,39% { opacity:0 } 40%,90% { opacity:1 } 92%,100% { opacity:0 } }
-@keyframes docSlop { 0%,3% { opacity:0 } 5%,85% { opacity:1 } 87%,100% { opacity:0 } }
-@keyframes docCrisp { 0%,3% { opacity:1 } 5%,85% { opacity:0 } 87%,100% { opacity:1 } }
-@keyframes selTidy { 0% { background:transparent; animation-timing-function:step-end } 6% { background:var(--sel); animation-timing-function:step-end } 13% { background:transparent } 100% { background:transparent } }
-@keyframes selMsg { 0% { background:transparent; animation-timing-function:step-end } 33% { background:var(--sel); animation-timing-function:step-end } 40% { background:transparent } 100% { background:transparent } }
-@keyframes selDocs { 0% { background:transparent; animation-timing-function:step-end } 76% { background:var(--sel); animation-timing-function:step-end } 86% { background:transparent } 100% { background:transparent } }
+/* The text swap is a hard cut, never a crossfade — a real in-place replacement
+   happens between one frame and the next, so every stop here is step-end.
+   Swap moments: Notes 14%, Messages 41%, Docs 87% (each just after its chord).
+   The crisp->slop reset happens only while that card is DEEP in the stack
+   (Notes 30%, Messages 60%, Docs 6%) so it is never visible on a readable card. */
+@keyframes tdTypo { 0% { opacity:1; animation-timing-function:step-end } 14% { opacity:0; animation-timing-function:step-end } 30% { opacity:1; animation-timing-function:step-end } 100% { opacity:1 } }
+@keyframes tdCrisp { 0% { opacity:0; animation-timing-function:step-end } 14% { opacity:1; animation-timing-function:step-end } 30% { opacity:0; animation-timing-function:step-end } 100% { opacity:0 } }
+@keyframes msgSlop { 0% { opacity:1; animation-timing-function:step-end } 41% { opacity:0; animation-timing-function:step-end } 60% { opacity:1; animation-timing-function:step-end } 100% { opacity:1 } }
+@keyframes msgCrisp { 0% { opacity:0; animation-timing-function:step-end } 41% { opacity:1; animation-timing-function:step-end } 60% { opacity:0; animation-timing-function:step-end } 100% { opacity:0 } }
+@keyframes docSlop { 0% { opacity:0; animation-timing-function:step-end } 6% { opacity:1; animation-timing-function:step-end } 78% { opacity:0; animation-timing-function:step-end } 100% { opacity:0 } }
+@keyframes docCrisp { 0% { opacity:1; animation-timing-function:step-end } 6% { opacity:0; animation-timing-function:step-end } 78% { opacity:1; animation-timing-function:step-end } 100% { opacity:1 } }
+@keyframes selTidy { 0% { background:transparent; animation-timing-function:step-end } 6% { background:var(--sel-notes); animation-timing-function:step-end } 14% { background:transparent } 100% { background:transparent } }
+@keyframes selMsg { 0% { background:transparent; animation-timing-function:step-end } 33% { background:var(--sel-msg); animation-timing-function:step-end } 41% { background:transparent } 100% { background:transparent } }
+@keyframes selDocs { 0% { background:transparent; animation-timing-function:step-end } 70% { background:var(--sel-docs); animation-timing-function:step-end } 78% { background:transparent } 100% { background:transparent } }
 
-.uToast { position:absolute; left:50%; bottom:-12px; z-index:8; box-sizing:border-box; transform:translateX(-50%); display:inline-grid; grid-template-columns:minmax(0,1fr); place-items:center; padding:9px 16px; background:#17171a; border-radius:13px; box-shadow:0 22px 46px -18px rgba(0,0,0,0.62), inset 0 0 0 0.5px rgba(255,255,255,0.08); white-space:nowrap; overflow:hidden; opacity:0; }
+.uToast { position:absolute; left:50%; bottom:-12px; z-index:8; box-sizing:border-box; transform:translateX(-50%); display:inline-grid; grid-template-columns:minmax(0,1fr); place-items:center; padding:9px 18px; background:#17171a; border-radius:999px; box-shadow:0 22px 46px -18px rgba(0,0,0,0.62), inset 0 0 0 0.5px rgba(255,255,255,0.08); white-space:nowrap; overflow:hidden; opacity:0; }
 .uToast > * { grid-area:1/1; }
 .uWork { display:inline-flex; align-items:center; }
 .uDone { color:#f4f4f5; font-size:13px; font-weight:500; letter-spacing:-0.01em; }
@@ -212,15 +274,25 @@ a { color: var(--accent); text-decoration: none; }
 .procTitle::after { content:""; position:absolute; left:-12px; right:-12px; bottom:0; height:8px; background-repeat:repeat-x; background-position:0 bottom; background-size:16px 8px; background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='8'%3E%3Cpath d='M0 4 Q 4 1.5 8 4 T 16 4' fill='none' stroke='%23e04b3f' stroke-width='1.6' stroke-linecap='round'/%3E%3C/svg%3E"); animation:procWave .3s linear infinite; -webkit-mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent); mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent); }
 @media (prefers-reduced-motion:reduce) { .procTitle::after { animation:none; } }
 @keyframes procWave { to { background-position:16px bottom } }
-@keyframes uTidyShow { 0%,12% { opacity:0; transform:translateX(-50%) scale(0.94); width:78px } 14%,16% { opacity:1; transform:translateX(-50%) scale(1); width:78px } 17.5%,19% { opacity:1; transform:translateX(-50%) scale(1); width:121px } 20%,100% { opacity:0; transform:translateX(-50%) scale(0.97); width:121px } }
-@keyframes uMsgShow { 0%,39% { opacity:0; transform:translateX(-50%) scale(0.94); width:108px } 41%,42.5% { opacity:1; transform:translateX(-50%) scale(1); width:108px } 44%,45% { opacity:1; transform:translateX(-50%) scale(1); width:168px } 46%,100% { opacity:0; transform:translateX(-50%) scale(0.97); width:168px } }
-@keyframes uDocsShow { 0%,85% { opacity:0; transform:translateX(-50%) scale(0.94); width:108px } 87%,89% { opacity:1; transform:translateX(-50%) scale(1); width:108px } 90.5%,93% { opacity:1; transform:translateX(-50%) scale(1); width:168px } 94%,100% { opacity:0; transform:translateX(-50%) scale(0.97); width:168px } }
-@keyframes uWorkTidy { 0%,15% { opacity:1 } 16.5%,100% { opacity:0 } }
-@keyframes uDoneTidy { 0%,15.5% { opacity:0 } 17%,100% { opacity:1 } }
-@keyframes uWorkMsg { 0%,42% { opacity:1 } 43.5%,100% { opacity:0 } }
-@keyframes uDoneMsg { 0%,42.5% { opacity:0 } 44%,100% { opacity:1 } }
-@keyframes uWorkDocs { 0%,89% { opacity:1 } 90.5%,100% { opacity:0 } }
-@keyframes uDoneDocs { 0%,89.5% { opacity:0 } 91%,100% { opacity:1 } }
+/* Toasts track their own card's beat: the working pill appears just after ⌘A
+   while the chord is held, then crossfades to the word count exactly on the
+   text flip (13% / 40% / 86%) and clears before the card drops back. */
+/* The pill fades in with the chord, then swaps label on the exact frame the
+   text is replaced (14 / 41 / 87%) — an instant cut like the text, with the
+   width morph carrying the motion. */
+/* The pill morphs width while its two labels cross-fade. The count must not
+   appear until the pill has nearly finished growing, or it renders clipped
+   inside an undersized pill for the whole morph — which is what read as
+   janky. Widths are the measured content widths plus the 18px padding. */
+@keyframes uTidyShow { 0%,10.3% { opacity:0; transform:translateX(-50%) scale(0.94); width:80px } 11.3%,14% { opacity:1; transform:translateX(-50%) scale(1); width:80px; animation-timing-function:cubic-bezier(0.32,0.72,0,1) } 15.6%,17.5% { opacity:1; transform:translateX(-50%) scale(1); width:124px } 19%,100% { opacity:0; transform:translateX(-50%) scale(0.97); width:124px } }
+@keyframes uMsgShow { 0%,37.3% { opacity:0; transform:translateX(-50%) scale(0.94); width:110px } 38.3%,41% { opacity:1; transform:translateX(-50%) scale(1); width:110px; animation-timing-function:cubic-bezier(0.32,0.72,0,1) } 42.6%,44% { opacity:1; transform:translateX(-50%) scale(1); width:168px } 45.5%,100% { opacity:0; transform:translateX(-50%) scale(0.97); width:168px } }
+@keyframes uDocsShow { 0%,74.3% { opacity:0; transform:translateX(-50%) scale(0.94); width:110px } 75.3%,78% { opacity:1; transform:translateX(-50%) scale(1); width:110px; animation-timing-function:cubic-bezier(0.32,0.72,0,1) } 79.6%,82% { opacity:1; transform:translateX(-50%) scale(1); width:168px } 83.5%,100% { opacity:0; transform:translateX(-50%) scale(0.97); width:168px } }
+@keyframes uWorkTidy { 0%,14% { opacity:1 } 14.7%,100% { opacity:0 } }
+@keyframes uDoneTidy { 0%,14.55% { opacity:0 } 15.4%,100% { opacity:1 } }
+@keyframes uWorkMsg { 0%,41% { opacity:1 } 41.7%,100% { opacity:0 } }
+@keyframes uDoneMsg { 0%,41.55% { opacity:0 } 42.4%,100% { opacity:1 } }
+@keyframes uWorkDocs { 0%,78% { opacity:1 } 78.7%,100% { opacity:0 } }
+@keyframes uDoneDocs { 0%,78.55% { opacity:0 } 79.4%,100% { opacity:1 } }
 @keyframes tCaret { 0%,50% { opacity:1 } 51%,100% { opacity:0 } }
 
 .demo-kbd { margin-top: 4px; }
@@ -229,11 +301,13 @@ a { color: var(--accent); text-decoration: none; }
 .demo-kbd .key.kA { animation: kbA 28s ease-in-out infinite; }
 .demo-kbd .key.kT { animation: kbTapT 28s ease-in-out infinite; }
 .demo-kbd .key.kS { animation: kbTapS 28s ease-in-out infinite; }
-@keyframes kbMod { 0%,9.5% { transform:none; background:linear-gradient(#ffffff,#f0f0f3); color:#3d3d44; box-shadow: inset 0 -1px 1px rgba(14,14,16,0.05), 0 1.5px 2px rgba(14,14,16,0.16), 0 0 0 1px rgba(14,14,16,0.05); } 10%,13% { transform:translateY(1.5px); background:linear-gradient(#e04b3f,#b8342a); color:#fff; box-shadow: inset 0 1px 3px rgba(0,0,0,0.28), 0 0 0 1px #a02b22, 0 0 16px rgba(224,75,63,0.6); } 13.5%,36.5% { transform:none; background:linear-gradient(#ffffff,#f0f0f3); color:#3d3d44; box-shadow: inset 0 -1px 1px rgba(14,14,16,0.05), 0 1.5px 2px rgba(14,14,16,0.16), 0 0 0 1px rgba(14,14,16,0.05); } 37%,40% { transform:translateY(1.5px); background:linear-gradient(#e04b3f,#b8342a); color:#fff; box-shadow: inset 0 1px 3px rgba(0,0,0,0.28), 0 0 0 1px #a02b22, 0 0 16px rgba(224,75,63,0.6); } 40.5%,82.5% { transform:none; background:linear-gradient(#ffffff,#f0f0f3); color:#3d3d44; box-shadow: inset 0 -1px 1px rgba(14,14,16,0.05), 0 1.5px 2px rgba(14,14,16,0.16), 0 0 0 1px rgba(14,14,16,0.05); } 83%,86% { transform:translateY(1.5px); background:linear-gradient(#e04b3f,#b8342a); color:#fff; box-shadow: inset 0 1px 3px rgba(0,0,0,0.28), 0 0 0 1px #a02b22, 0 0 16px rgba(224,75,63,0.6); } 86.5%,100% { transform:none; background:linear-gradient(#ffffff,#f0f0f3); color:#3d3d44; box-shadow: inset 0 -1px 1px rgba(14,14,16,0.05), 0 1.5px 2px rgba(14,14,16,0.16), 0 0 0 1px rgba(14,14,16,0.05); } }
-@keyframes kbCmd { 0%,3.5% { transform:none; background:linear-gradient(#ffffff,#f0f0f3); color:#3d3d44; box-shadow: inset 0 -1px 1px rgba(14,14,16,0.05), 0 1.5px 2px rgba(14,14,16,0.16), 0 0 0 1px rgba(14,14,16,0.05); } 4%,7% { transform:translateY(1.5px); background:linear-gradient(#e04b3f,#b8342a); color:#fff; box-shadow: inset 0 1px 3px rgba(0,0,0,0.28), 0 0 0 1px #a02b22, 0 0 16px rgba(224,75,63,0.6); } 7.5%,9.5% { transform:none; background:linear-gradient(#ffffff,#f0f0f3); color:#3d3d44; box-shadow: inset 0 -1px 1px rgba(14,14,16,0.05), 0 1.5px 2px rgba(14,14,16,0.16), 0 0 0 1px rgba(14,14,16,0.05); } 10%,13% { transform:translateY(1.5px); background:linear-gradient(#e04b3f,#b8342a); color:#fff; box-shadow: inset 0 1px 3px rgba(0,0,0,0.28), 0 0 0 1px #a02b22, 0 0 16px rgba(224,75,63,0.6); } 13.5%,30.5% { transform:none; background:linear-gradient(#ffffff,#f0f0f3); color:#3d3d44; box-shadow: inset 0 -1px 1px rgba(14,14,16,0.05), 0 1.5px 2px rgba(14,14,16,0.16), 0 0 0 1px rgba(14,14,16,0.05); } 31%,34% { transform:translateY(1.5px); background:linear-gradient(#e04b3f,#b8342a); color:#fff; box-shadow: inset 0 1px 3px rgba(0,0,0,0.28), 0 0 0 1px #a02b22, 0 0 16px rgba(224,75,63,0.6); } 34.5%,36.5% { transform:none; background:linear-gradient(#ffffff,#f0f0f3); color:#3d3d44; box-shadow: inset 0 -1px 1px rgba(14,14,16,0.05), 0 1.5px 2px rgba(14,14,16,0.16), 0 0 0 1px rgba(14,14,16,0.05); } 37%,40% { transform:translateY(1.5px); background:linear-gradient(#e04b3f,#b8342a); color:#fff; box-shadow: inset 0 1px 3px rgba(0,0,0,0.28), 0 0 0 1px #a02b22, 0 0 16px rgba(224,75,63,0.6); } 40.5%,76.5% { transform:none; background:linear-gradient(#ffffff,#f0f0f3); color:#3d3d44; box-shadow: inset 0 -1px 1px rgba(14,14,16,0.05), 0 1.5px 2px rgba(14,14,16,0.16), 0 0 0 1px rgba(14,14,16,0.05); } 77%,80% { transform:translateY(1.5px); background:linear-gradient(#e04b3f,#b8342a); color:#fff; box-shadow: inset 0 1px 3px rgba(0,0,0,0.28), 0 0 0 1px #a02b22, 0 0 16px rgba(224,75,63,0.6); } 80.5%,82.5% { transform:none; background:linear-gradient(#ffffff,#f0f0f3); color:#3d3d44; box-shadow: inset 0 -1px 1px rgba(14,14,16,0.05), 0 1.5px 2px rgba(14,14,16,0.16), 0 0 0 1px rgba(14,14,16,0.05); } 83%,86% { transform:translateY(1.5px); background:linear-gradient(#e04b3f,#b8342a); color:#fff; box-shadow: inset 0 1px 3px rgba(0,0,0,0.28), 0 0 0 1px #a02b22, 0 0 16px rgba(224,75,63,0.6); } 86.5%,100% { transform:none; background:linear-gradient(#ffffff,#f0f0f3); color:#3d3d44; box-shadow: inset 0 -1px 1px rgba(14,14,16,0.05), 0 1.5px 2px rgba(14,14,16,0.16), 0 0 0 1px rgba(14,14,16,0.05); } }
-@keyframes kbA { 0%,3.5% { transform:none; background:linear-gradient(#ffffff,#f0f0f3); color:#3d3d44; box-shadow: inset 0 -1px 1px rgba(14,14,16,0.05), 0 1.5px 2px rgba(14,14,16,0.16), 0 0 0 1px rgba(14,14,16,0.05); } 4%,7% { transform:translateY(1.5px); background:linear-gradient(#e04b3f,#b8342a); color:#fff; box-shadow: inset 0 1px 3px rgba(0,0,0,0.28), 0 0 0 1px #a02b22, 0 0 16px rgba(224,75,63,0.6); } 7.5%,30.5% { transform:none; background:linear-gradient(#ffffff,#f0f0f3); color:#3d3d44; box-shadow: inset 0 -1px 1px rgba(14,14,16,0.05), 0 1.5px 2px rgba(14,14,16,0.16), 0 0 0 1px rgba(14,14,16,0.05); } 31%,34% { transform:translateY(1.5px); background:linear-gradient(#e04b3f,#b8342a); color:#fff; box-shadow: inset 0 1px 3px rgba(0,0,0,0.28), 0 0 0 1px #a02b22, 0 0 16px rgba(224,75,63,0.6); } 34.5%,76.5% { transform:none; background:linear-gradient(#ffffff,#f0f0f3); color:#3d3d44; box-shadow: inset 0 -1px 1px rgba(14,14,16,0.05), 0 1.5px 2px rgba(14,14,16,0.16), 0 0 0 1px rgba(14,14,16,0.05); } 77%,80% { transform:translateY(1.5px); background:linear-gradient(#e04b3f,#b8342a); color:#fff; box-shadow: inset 0 1px 3px rgba(0,0,0,0.28), 0 0 0 1px #a02b22, 0 0 16px rgba(224,75,63,0.6); } 80.5%,100% { transform:none; background:linear-gradient(#ffffff,#f0f0f3); color:#3d3d44; box-shadow: inset 0 -1px 1px rgba(14,14,16,0.05), 0 1.5px 2px rgba(14,14,16,0.16), 0 0 0 1px rgba(14,14,16,0.05); } }
-@keyframes kbTapT { 0%,9.5% { transform:none; background:linear-gradient(#ffffff,#f0f0f3); color:#3d3d44; box-shadow: inset 0 -1px 1px rgba(14,14,16,0.05), 0 1.5px 2px rgba(14,14,16,0.16), 0 0 0 1px rgba(14,14,16,0.05); } 10%,13% { transform:translateY(1.5px); background:linear-gradient(#e04b3f,#b8342a); color:#fff; box-shadow: inset 0 1px 3px rgba(0,0,0,0.28), 0 0 0 1px #a02b22, 0 0 16px rgba(224,75,63,0.7); } 13.5%,100% { transform:none; background:linear-gradient(#ffffff,#f0f0f3); color:#3d3d44; box-shadow: inset 0 -1px 1px rgba(14,14,16,0.05), 0 1.5px 2px rgba(14,14,16,0.16), 0 0 0 1px rgba(14,14,16,0.05); } }
-@keyframes kbTapS { 0%,36.5% { transform:none; background:linear-gradient(#ffffff,#f0f0f3); color:#3d3d44; box-shadow: inset 0 -1px 1px rgba(14,14,16,0.05), 0 1.5px 2px rgba(14,14,16,0.16), 0 0 0 1px rgba(14,14,16,0.05); } 37%,40% { transform:translateY(1.5px); background:linear-gradient(#e04b3f,#b8342a); color:#fff; box-shadow: inset 0 1px 3px rgba(0,0,0,0.28), 0 0 0 1px #a02b22, 0 0 16px rgba(224,75,63,0.7); } 40.5%,82.5% { transform:none; background:linear-gradient(#ffffff,#f0f0f3); color:#3d3d44; box-shadow: inset 0 -1px 1px rgba(14,14,16,0.05), 0 1.5px 2px rgba(14,14,16,0.16), 0 0 0 1px rgba(14,14,16,0.05); } 83%,86% { transform:translateY(1.5px); background:linear-gradient(#e04b3f,#b8342a); color:#fff; box-shadow: inset 0 1px 3px rgba(0,0,0,0.28), 0 0 0 1px #a02b22, 0 0 16px rgba(224,75,63,0.7); } 86.5%,100% { transform:none; background:linear-gradient(#ffffff,#f0f0f3); color:#3d3d44; box-shadow: inset 0 -1px 1px rgba(14,14,16,0.05), 0 1.5px 2px rgba(14,14,16,0.16), 0 0 0 1px rgba(14,14,16,0.05); } }
+@keyframes kbMod { 0% { transform:none; background:linear-gradient(#ffffff,#f0f0f3); color:#3d3d44; box-shadow: inset 0 -1px 1px rgba(14,14,16,0.05), 0 1.5px 2px rgba(14,14,16,0.16), 0 0 0 1px rgba(14,14,16,0.05); } 7.2% { transform:none; background:linear-gradient(#ffffff,#f0f0f3); color:#3d3d44; box-shadow: inset 0 -1px 1px rgba(14,14,16,0.05), 0 1.5px 2px rgba(14,14,16,0.16), 0 0 0 1px rgba(14,14,16,0.05); } 7.5% { transform:translateY(1.5px); background:linear-gradient(#e04b3f,#b8342a); color:#fff; box-shadow: inset 0 1px 3px rgba(0,0,0,0.28), 0 0 0 1px #a02b22, 0 0 16px rgba(224,75,63,0.6); } 10% { transform:translateY(1.5px); background:linear-gradient(#e04b3f,#b8342a); color:#fff; box-shadow: inset 0 1px 3px rgba(0,0,0,0.28), 0 0 0 1px #a02b22, 0 0 16px rgba(224,75,63,0.6); } 10.3% { transform:none; background:linear-gradient(#ffffff,#f0f0f3); color:#3d3d44; box-shadow: inset 0 -1px 1px rgba(14,14,16,0.05), 0 1.5px 2px rgba(14,14,16,0.16), 0 0 0 1px rgba(14,14,16,0.05); } 34.2% { transform:none; background:linear-gradient(#ffffff,#f0f0f3); color:#3d3d44; box-shadow: inset 0 -1px 1px rgba(14,14,16,0.05), 0 1.5px 2px rgba(14,14,16,0.16), 0 0 0 1px rgba(14,14,16,0.05); } 34.5% { transform:translateY(1.5px); background:linear-gradient(#e04b3f,#b8342a); color:#fff; box-shadow: inset 0 1px 3px rgba(0,0,0,0.28), 0 0 0 1px #a02b22, 0 0 16px rgba(224,75,63,0.6); } 37% { transform:translateY(1.5px); background:linear-gradient(#e04b3f,#b8342a); color:#fff; box-shadow: inset 0 1px 3px rgba(0,0,0,0.28), 0 0 0 1px #a02b22, 0 0 16px rgba(224,75,63,0.6); } 37.3% { transform:none; background:linear-gradient(#ffffff,#f0f0f3); color:#3d3d44; box-shadow: inset 0 -1px 1px rgba(14,14,16,0.05), 0 1.5px 2px rgba(14,14,16,0.16), 0 0 0 1px rgba(14,14,16,0.05); } 71.2% { transform:none; background:linear-gradient(#ffffff,#f0f0f3); color:#3d3d44; box-shadow: inset 0 -1px 1px rgba(14,14,16,0.05), 0 1.5px 2px rgba(14,14,16,0.16), 0 0 0 1px rgba(14,14,16,0.05); } 71.5% { transform:translateY(1.5px); background:linear-gradient(#e04b3f,#b8342a); color:#fff; box-shadow: inset 0 1px 3px rgba(0,0,0,0.28), 0 0 0 1px #a02b22, 0 0 16px rgba(224,75,63,0.6); } 74% { transform:translateY(1.5px); background:linear-gradient(#e04b3f,#b8342a); color:#fff; box-shadow: inset 0 1px 3px rgba(0,0,0,0.28), 0 0 0 1px #a02b22, 0 0 16px rgba(224,75,63,0.6); } 74.3% { transform:none; background:linear-gradient(#ffffff,#f0f0f3); color:#3d3d44; box-shadow: inset 0 -1px 1px rgba(14,14,16,0.05), 0 1.5px 2px rgba(14,14,16,0.16), 0 0 0 1px rgba(14,14,16,0.05); } 100% { transform:none; background:linear-gradient(#ffffff,#f0f0f3); color:#3d3d44; box-shadow: inset 0 -1px 1px rgba(14,14,16,0.05), 0 1.5px 2px rgba(14,14,16,0.16), 0 0 0 1px rgba(14,14,16,0.05); } }
+@keyframes kbCmd { 0% { transform:none; background:linear-gradient(#ffffff,#f0f0f3); color:#3d3d44; box-shadow: inset 0 -1px 1px rgba(14,14,16,0.05), 0 1.5px 2px rgba(14,14,16,0.16), 0 0 0 1px rgba(14,14,16,0.05); } 3.7% { transform:none; background:linear-gradient(#ffffff,#f0f0f3); color:#3d3d44; box-shadow: inset 0 -1px 1px rgba(14,14,16,0.05), 0 1.5px 2px rgba(14,14,16,0.16), 0 0 0 1px rgba(14,14,16,0.05); } 4% { transform:translateY(1.5px); background:linear-gradient(#e04b3f,#b8342a); color:#fff; box-shadow: inset 0 1px 3px rgba(0,0,0,0.28), 0 0 0 1px #a02b22, 0 0 16px rgba(224,75,63,0.6); } 6.5% { transform:translateY(1.5px); background:linear-gradient(#e04b3f,#b8342a); color:#fff; box-shadow: inset 0 1px 3px rgba(0,0,0,0.28), 0 0 0 1px #a02b22, 0 0 16px rgba(224,75,63,0.6); } 6.8% { transform:none; background:linear-gradient(#ffffff,#f0f0f3); color:#3d3d44; box-shadow: inset 0 -1px 1px rgba(14,14,16,0.05), 0 1.5px 2px rgba(14,14,16,0.16), 0 0 0 1px rgba(14,14,16,0.05); } 7.2% { transform:none; background:linear-gradient(#ffffff,#f0f0f3); color:#3d3d44; box-shadow: inset 0 -1px 1px rgba(14,14,16,0.05), 0 1.5px 2px rgba(14,14,16,0.16), 0 0 0 1px rgba(14,14,16,0.05); } 7.5% { transform:translateY(1.5px); background:linear-gradient(#e04b3f,#b8342a); color:#fff; box-shadow: inset 0 1px 3px rgba(0,0,0,0.28), 0 0 0 1px #a02b22, 0 0 16px rgba(224,75,63,0.6); } 10% { transform:translateY(1.5px); background:linear-gradient(#e04b3f,#b8342a); color:#fff; box-shadow: inset 0 1px 3px rgba(0,0,0,0.28), 0 0 0 1px #a02b22, 0 0 16px rgba(224,75,63,0.6); } 10.3% { transform:none; background:linear-gradient(#ffffff,#f0f0f3); color:#3d3d44; box-shadow: inset 0 -1px 1px rgba(14,14,16,0.05), 0 1.5px 2px rgba(14,14,16,0.16), 0 0 0 1px rgba(14,14,16,0.05); } 30.7% { transform:none; background:linear-gradient(#ffffff,#f0f0f3); color:#3d3d44; box-shadow: inset 0 -1px 1px rgba(14,14,16,0.05), 0 1.5px 2px rgba(14,14,16,0.16), 0 0 0 1px rgba(14,14,16,0.05); } 31% { transform:translateY(1.5px); background:linear-gradient(#e04b3f,#b8342a); color:#fff; box-shadow: inset 0 1px 3px rgba(0,0,0,0.28), 0 0 0 1px #a02b22, 0 0 16px rgba(224,75,63,0.6); } 33.5% { transform:translateY(1.5px); background:linear-gradient(#e04b3f,#b8342a); color:#fff; box-shadow: inset 0 1px 3px rgba(0,0,0,0.28), 0 0 0 1px #a02b22, 0 0 16px rgba(224,75,63,0.6); } 33.8% { transform:none; background:linear-gradient(#ffffff,#f0f0f3); color:#3d3d44; box-shadow: inset 0 -1px 1px rgba(14,14,16,0.05), 0 1.5px 2px rgba(14,14,16,0.16), 0 0 0 1px rgba(14,14,16,0.05); } 34.2% { transform:none; background:linear-gradient(#ffffff,#f0f0f3); color:#3d3d44; box-shadow: inset 0 -1px 1px rgba(14,14,16,0.05), 0 1.5px 2px rgba(14,14,16,0.16), 0 0 0 1px rgba(14,14,16,0.05); } 34.5% { transform:translateY(1.5px); background:linear-gradient(#e04b3f,#b8342a); color:#fff; box-shadow: inset 0 1px 3px rgba(0,0,0,0.28), 0 0 0 1px #a02b22, 0 0 16px rgba(224,75,63,0.6); } 37% { transform:translateY(1.5px); background:linear-gradient(#e04b3f,#b8342a); color:#fff; box-shadow: inset 0 1px 3px rgba(0,0,0,0.28), 0 0 0 1px #a02b22, 0 0 16px rgba(224,75,63,0.6); } 37.3% { transform:none; background:linear-gradient(#ffffff,#f0f0f3); color:#3d3d44; box-shadow: inset 0 -1px 1px rgba(14,14,16,0.05), 0 1.5px 2px rgba(14,14,16,0.16), 0 0 0 1px rgba(14,14,16,0.05); } 67.7% { transform:none; background:linear-gradient(#ffffff,#f0f0f3); color:#3d3d44; box-shadow: inset 0 -1px 1px rgba(14,14,16,0.05), 0 1.5px 2px rgba(14,14,16,0.16), 0 0 0 1px rgba(14,14,16,0.05); } 68% { transform:translateY(1.5px); background:linear-gradient(#e04b3f,#b8342a); color:#fff; box-shadow: inset 0 1px 3px rgba(0,0,0,0.28), 0 0 0 1px #a02b22, 0 0 16px rgba(224,75,63,0.6); } 70.5% { transform:translateY(1.5px); background:linear-gradient(#e04b3f,#b8342a); color:#fff; box-shadow: inset 0 1px 3px rgba(0,0,0,0.28), 0 0 0 1px #a02b22, 0 0 16px rgba(224,75,63,0.6); } 70.8% { transform:none; background:linear-gradient(#ffffff,#f0f0f3); color:#3d3d44; box-shadow: inset 0 -1px 1px rgba(14,14,16,0.05), 0 1.5px 2px rgba(14,14,16,0.16), 0 0 0 1px rgba(14,14,16,0.05); } 71.2% { transform:none; background:linear-gradient(#ffffff,#f0f0f3); color:#3d3d44; box-shadow: inset 0 -1px 1px rgba(14,14,16,0.05), 0 1.5px 2px rgba(14,14,16,0.16), 0 0 0 1px rgba(14,14,16,0.05); } 71.5% { transform:translateY(1.5px); background:linear-gradient(#e04b3f,#b8342a); color:#fff; box-shadow: inset 0 1px 3px rgba(0,0,0,0.28), 0 0 0 1px #a02b22, 0 0 16px rgba(224,75,63,0.6); } 74% { transform:translateY(1.5px); background:linear-gradient(#e04b3f,#b8342a); color:#fff; box-shadow: inset 0 1px 3px rgba(0,0,0,0.28), 0 0 0 1px #a02b22, 0 0 16px rgba(224,75,63,0.6); } 74.3% { transform:none; background:linear-gradient(#ffffff,#f0f0f3); color:#3d3d44; box-shadow: inset 0 -1px 1px rgba(14,14,16,0.05), 0 1.5px 2px rgba(14,14,16,0.16), 0 0 0 1px rgba(14,14,16,0.05); } 100% { transform:none; background:linear-gradient(#ffffff,#f0f0f3); color:#3d3d44; box-shadow: inset 0 -1px 1px rgba(14,14,16,0.05), 0 1.5px 2px rgba(14,14,16,0.16), 0 0 0 1px rgba(14,14,16,0.05); } }
+@keyframes kbA { 0% { transform:none; background:linear-gradient(#ffffff,#f0f0f3); color:#3d3d44; box-shadow: inset 0 -1px 1px rgba(14,14,16,0.05), 0 1.5px 2px rgba(14,14,16,0.16), 0 0 0 1px rgba(14,14,16,0.05); } 3.7% { transform:none; background:linear-gradient(#ffffff,#f0f0f3); color:#3d3d44; box-shadow: inset 0 -1px 1px rgba(14,14,16,0.05), 0 1.5px 2px rgba(14,14,16,0.16), 0 0 0 1px rgba(14,14,16,0.05); } 4% { transform:translateY(1.5px); background:linear-gradient(#e04b3f,#b8342a); color:#fff; box-shadow: inset 0 1px 3px rgba(0,0,0,0.28), 0 0 0 1px #a02b22, 0 0 16px rgba(224,75,63,0.6); } 6.5% { transform:translateY(1.5px); background:linear-gradient(#e04b3f,#b8342a); color:#fff; box-shadow: inset 0 1px 3px rgba(0,0,0,0.28), 0 0 0 1px #a02b22, 0 0 16px rgba(224,75,63,0.6); } 6.8% { transform:none; background:linear-gradient(#ffffff,#f0f0f3); color:#3d3d44; box-shadow: inset 0 -1px 1px rgba(14,14,16,0.05), 0 1.5px 2px rgba(14,14,16,0.16), 0 0 0 1px rgba(14,14,16,0.05); } 30.7% { transform:none; background:linear-gradient(#ffffff,#f0f0f3); color:#3d3d44; box-shadow: inset 0 -1px 1px rgba(14,14,16,0.05), 0 1.5px 2px rgba(14,14,16,0.16), 0 0 0 1px rgba(14,14,16,0.05); } 31% { transform:translateY(1.5px); background:linear-gradient(#e04b3f,#b8342a); color:#fff; box-shadow: inset 0 1px 3px rgba(0,0,0,0.28), 0 0 0 1px #a02b22, 0 0 16px rgba(224,75,63,0.6); } 33.5% { transform:translateY(1.5px); background:linear-gradient(#e04b3f,#b8342a); color:#fff; box-shadow: inset 0 1px 3px rgba(0,0,0,0.28), 0 0 0 1px #a02b22, 0 0 16px rgba(224,75,63,0.6); } 33.8% { transform:none; background:linear-gradient(#ffffff,#f0f0f3); color:#3d3d44; box-shadow: inset 0 -1px 1px rgba(14,14,16,0.05), 0 1.5px 2px rgba(14,14,16,0.16), 0 0 0 1px rgba(14,14,16,0.05); } 67.7% { transform:none; background:linear-gradient(#ffffff,#f0f0f3); color:#3d3d44; box-shadow: inset 0 -1px 1px rgba(14,14,16,0.05), 0 1.5px 2px rgba(14,14,16,0.16), 0 0 0 1px rgba(14,14,16,0.05); } 68% { transform:translateY(1.5px); background:linear-gradient(#e04b3f,#b8342a); color:#fff; box-shadow: inset 0 1px 3px rgba(0,0,0,0.28), 0 0 0 1px #a02b22, 0 0 16px rgba(224,75,63,0.6); } 70.5% { transform:translateY(1.5px); background:linear-gradient(#e04b3f,#b8342a); color:#fff; box-shadow: inset 0 1px 3px rgba(0,0,0,0.28), 0 0 0 1px #a02b22, 0 0 16px rgba(224,75,63,0.6); } 70.8% { transform:none; background:linear-gradient(#ffffff,#f0f0f3); color:#3d3d44; box-shadow: inset 0 -1px 1px rgba(14,14,16,0.05), 0 1.5px 2px rgba(14,14,16,0.16), 0 0 0 1px rgba(14,14,16,0.05); } 100% { transform:none; background:linear-gradient(#ffffff,#f0f0f3); color:#3d3d44; box-shadow: inset 0 -1px 1px rgba(14,14,16,0.05), 0 1.5px 2px rgba(14,14,16,0.16), 0 0 0 1px rgba(14,14,16,0.05); } }
+/* T is the tidy shortcut (⌃⌥⌘T) — Notes only, once per loop at 10%.
+   S is de-slop (⌃⌥⌘S) — Messages at 37% and Docs at 83%. */
+@keyframes kbTapT { 0% { transform:none; background:linear-gradient(#ffffff,#f0f0f3); color:#3d3d44; box-shadow: inset 0 -1px 1px rgba(14,14,16,0.05), 0 1.5px 2px rgba(14,14,16,0.16), 0 0 0 1px rgba(14,14,16,0.05); } 7.2% { transform:none; background:linear-gradient(#ffffff,#f0f0f3); color:#3d3d44; box-shadow: inset 0 -1px 1px rgba(14,14,16,0.05), 0 1.5px 2px rgba(14,14,16,0.16), 0 0 0 1px rgba(14,14,16,0.05); } 7.5% { transform:translateY(1.5px); background:linear-gradient(#e04b3f,#b8342a); color:#fff; box-shadow: inset 0 1px 3px rgba(0,0,0,0.28), 0 0 0 1px #a02b22, 0 0 16px rgba(224,75,63,0.7); } 10% { transform:translateY(1.5px); background:linear-gradient(#e04b3f,#b8342a); color:#fff; box-shadow: inset 0 1px 3px rgba(0,0,0,0.28), 0 0 0 1px #a02b22, 0 0 16px rgba(224,75,63,0.7); } 10.3% { transform:none; background:linear-gradient(#ffffff,#f0f0f3); color:#3d3d44; box-shadow: inset 0 -1px 1px rgba(14,14,16,0.05), 0 1.5px 2px rgba(14,14,16,0.16), 0 0 0 1px rgba(14,14,16,0.05); } 100% { transform:none; background:linear-gradient(#ffffff,#f0f0f3); color:#3d3d44; box-shadow: inset 0 -1px 1px rgba(14,14,16,0.05), 0 1.5px 2px rgba(14,14,16,0.16), 0 0 0 1px rgba(14,14,16,0.05); } }
+@keyframes kbTapS { 0% { transform:none; background:linear-gradient(#ffffff,#f0f0f3); color:#3d3d44; box-shadow: inset 0 -1px 1px rgba(14,14,16,0.05), 0 1.5px 2px rgba(14,14,16,0.16), 0 0 0 1px rgba(14,14,16,0.05); } 34.2% { transform:none; background:linear-gradient(#ffffff,#f0f0f3); color:#3d3d44; box-shadow: inset 0 -1px 1px rgba(14,14,16,0.05), 0 1.5px 2px rgba(14,14,16,0.16), 0 0 0 1px rgba(14,14,16,0.05); } 34.5% { transform:translateY(1.5px); background:linear-gradient(#e04b3f,#b8342a); color:#fff; box-shadow: inset 0 1px 3px rgba(0,0,0,0.28), 0 0 0 1px #a02b22, 0 0 16px rgba(224,75,63,0.7); } 37% { transform:translateY(1.5px); background:linear-gradient(#e04b3f,#b8342a); color:#fff; box-shadow: inset 0 1px 3px rgba(0,0,0,0.28), 0 0 0 1px #a02b22, 0 0 16px rgba(224,75,63,0.7); } 37.3% { transform:none; background:linear-gradient(#ffffff,#f0f0f3); color:#3d3d44; box-shadow: inset 0 -1px 1px rgba(14,14,16,0.05), 0 1.5px 2px rgba(14,14,16,0.16), 0 0 0 1px rgba(14,14,16,0.05); } 71.2% { transform:none; background:linear-gradient(#ffffff,#f0f0f3); color:#3d3d44; box-shadow: inset 0 -1px 1px rgba(14,14,16,0.05), 0 1.5px 2px rgba(14,14,16,0.16), 0 0 0 1px rgba(14,14,16,0.05); } 71.5% { transform:translateY(1.5px); background:linear-gradient(#e04b3f,#b8342a); color:#fff; box-shadow: inset 0 1px 3px rgba(0,0,0,0.28), 0 0 0 1px #a02b22, 0 0 16px rgba(224,75,63,0.7); } 74% { transform:translateY(1.5px); background:linear-gradient(#e04b3f,#b8342a); color:#fff; box-shadow: inset 0 1px 3px rgba(0,0,0,0.28), 0 0 0 1px #a02b22, 0 0 16px rgba(224,75,63,0.7); } 74.3% { transform:none; background:linear-gradient(#ffffff,#f0f0f3); color:#3d3d44; box-shadow: inset 0 -1px 1px rgba(14,14,16,0.05), 0 1.5px 2px rgba(14,14,16,0.16), 0 0 0 1px rgba(14,14,16,0.05); } 100% { transform:none; background:linear-gradient(#ffffff,#f0f0f3); color:#3d3d44; box-shadow: inset 0 -1px 1px rgba(14,14,16,0.05), 0 1.5px 2px rgba(14,14,16,0.16), 0 0 0 1px rgba(14,14,16,0.05); } }
 
 .grid-why { display: grid; grid-template-columns: 1fr 1fr; gap: 34px 48px; }
 .divider { height: 1px; background: var(--hair2); }
@@ -272,5 +346,53 @@ a { color: var(--accent); text-decoration: none; }
   .h1 { font-size: 44px; }
   .nav-links { display: none !important; }
 }
+/* ---- Mobile -------------------------------------------------------------
+   The demo is three macOS windows drawn at desktop proportions. Below ~600px
+   they need smaller type, tighter chrome, and a taller stage, or the long
+   Docs slop gets cut off mid-sentence. The Docs titlebar drops its menu row
+   and collaborator avatars, which is what Docs itself does when narrow. */
+@media (max-width: 600px) {
+  .navWrap { padding: 18px; }
+  .heroWrap { padding: 28px 18px; gap: 20px; }
+  .demoWrap { padding: 18px 14px 48px; }
+  .pageWrap { padding: 36px 18px 56px; }
+  .footWrap { padding: 22px 18px; }
+  .h1 { font-size: 44px; }
+
+  .editor { font-size: 14px; padding: 10px 16px; line-height: 1.5; }
+
+  .notesBar { height: 40px; padding: 0 10px; gap: 6px; }
+  .nt1 { font-size: 12px; }
+  .nt2 { font-size: 9.5px; }
+  .chip { width: 22px; height: 22px; padding: 4px; }
+
+  .msgBar { height: 34px; }
+  .msgTo { font-size: 11.5px; }
+  .fmtBar { height: 28px; padding: 0 12px; }
+  .fchip { width: 21px; height: 21px; }
+  .msgEditor { padding-top: 10px; }
+  .composeRow { height: 40px; padding: 0 10px; }
+  .cbtn { width: 26px; height: 26px; padding: 5px; }
+  .send { width: 32px; height: 26px; }
+
+  .docsBar { height: 42px; padding: 0 12px 0 14px; gap: 8px; }
+  .docMenu, .docPeople { display: none; }
+  /* The spacer competes with docHead for free space and truncates the
+     title early; without it the full title fits. */
+  .docsBar .cSpacer { display: none; }
+  .docHead { flex: 1; min-width: 0; }
+  .docTitle { font-size: 13px; overflow: hidden; text-overflow: ellipsis; }
+  .docIcon { width: 15.4px; height: 22.5px; }
+  .docShare { height: 28px; padding: 0 12px 0 10px; font-size: 12px; gap: 5px; }
+  .docShare svg { width: 13px; height: 13px; }
+  .docEditor { padding: 10px 12px 0; }
+  .docPage { padding: 12px 14px; font-size: 12px; line-height: 1.5; }
+}
+
+/* The stage caps at 800px wide, so below ~880px the cards get narrower and
+   their text reflows taller. 224px clips it: measured 270px needed at 601px
+   and 249px at 375px. One height covers the whole range. */
+@media (max-width: 880px) { .stage { min-height: 280px; } }
+
 @media (max-width: 480px) { .grid-fixes { grid-template-columns: 1fr; } .h1 { font-size: 38px; } }
 @media (prefers-reduced-motion: reduce) { * { animation: none !important; } }
