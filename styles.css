@@ -57,7 +57,7 @@
 
 * { box-sizing: border-box; }
 body { margin: 0; background-color: var(--bg);
-  background-image: radial-gradient(1100px 520px at 50% -8%, var(--glow), transparent 68%), url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='44' height='26'><path d='M0 13 q 11 -9 22 0 t 22 0' fill='none' stroke='%23c4453a' stroke-opacity='0.05' stroke-width='1.3'/></svg>");
+  background-image: radial-gradient(1100px 520px at 50% -8%, var(--glow), transparent 68%), url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='44' height='26'><path d='M0 13 q 11 -9 22 0 t 22 0' fill='none' stroke='%23c4453a' stroke-opacity='0.09' stroke-width='1.3'/></svg>");
   background-repeat: no-repeat, repeat;
   font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Segoe UI", system-ui, Arial, sans-serif; color: var(--ink); overflow-x: hidden; transition: background-color .2s ease, color .2s ease; }
 a { color: var(--accent); text-decoration: none; }
