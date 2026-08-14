@@ -11,6 +11,7 @@
   --hair:rgba(244,244,245,0.08); --hair2:rgba(244,244,245,0.10);
   --iconbg:#0a0a0b; --iconink:#f4f4f5; --iconinset:rgba(244,244,245,0.14);
   --sel:rgba(224,75,63,0.28); --glow:rgba(224,75,63,0.10);
+  --share-bg:#004a77; --share-ink:#c2e7ff;
   --sel-notes:rgba(255,204,0,0.30); --sel-msg:rgba(235,235,245,0.18); --sel-docs:rgba(66,133,244,0.38);
   --winbg:#1b1b20; --winbar:#25252b; --winink:#f4f4f5; --winline:rgba(244,244,245,0.08); --winmuted:rgba(244,244,245,0.45);
   --capdown:#141418;
@@ -29,6 +30,7 @@
   --hair:rgba(14,14,16,0.08); --hair2:rgba(14,14,16,0.12);
   --iconbg:#0a0a0b; --iconink:#f4f4f5; --iconinset:rgba(244,244,245,0.14);
   --sel:rgba(196,69,58,0.22); --glow:rgba(196,69,58,0.07);
+  --share-bg:#c2e7ff; --share-ink:#001d35;
   --sel-notes:rgba(255,196,0,0.42); --sel-msg:rgba(60,60,67,0.16); --sel-docs:rgba(26,115,232,0.22);
   --winbg:#ffffff; --winbar:#e3e3e9; --winink:#141416; --winline:rgba(14,14,16,0.08); --winmuted:rgba(14,14,16,0.5);
   --capdown:#dcdce1;
@@ -48,6 +50,7 @@
     --hair:rgba(14,14,16,0.08); --hair2:rgba(14,14,16,0.12);
     --iconbg:#0a0a0b; --iconink:#f4f4f5; --iconinset:rgba(244,244,245,0.14);
     --sel:rgba(196,69,58,0.22); --glow:rgba(196,69,58,0.07);
+    --share-bg:#c2e7ff; --share-ink:#001d35;
     --sel-notes:rgba(255,196,0,0.42); --sel-msg:rgba(60,60,67,0.16); --sel-docs:rgba(26,115,232,0.22);
     --winbg:#ffffff; --winbar:#e3e3e9; --winink:#141416; --winline:rgba(14,14,16,0.08); --winmuted:rgba(14,14,16,0.5);
     --capdown:#dcdce1;
@@ -175,7 +178,7 @@ a { color: var(--accent); text-decoration: none; }
    no external requests. */
 .docPhoto { width: 26px; height: 26px; border-radius: 50%; overflow: hidden; flex: none; }
 .docPhoto img { width: 100%; height: 100%; object-fit: cover; display: block; }
-.docShare { display: inline-flex; align-items: center; gap: 7px; height: 32px; padding: 0 15px 0 13px; background: #c2e7ff; color: #001d35; border-radius: 16px; font-size: 13px; font-weight: 500; flex: none; }
+.docShare { display: inline-flex; align-items: center; gap: 7px; height: 32px; padding: 0 15px 0 13px; background: var(--share-bg); color: var(--share-ink); border-radius: 16px; font-size: 13px; font-weight: 500; flex: none; }
 .docShare svg { width: 15px; height: 15px; stroke: currentColor; stroke-width: 1.9; fill: none; stroke-linecap: round; stroke-linejoin: round; }
 .docEditor { background: color-mix(in srgb, var(--winink) 4.5%, var(--winbg)); padding: 12px 26px 0; overflow: hidden; }
 .docPage { background: var(--winbg); box-shadow: 0 1px 4px rgba(14,14,16,0.14), inset 0 0 0 1px var(--winline); border-radius: 3px 3px 0 0; padding: 18px 30px; height: 100%; font-size: 15px; line-height: 1.6; }
