@@ -265,9 +265,9 @@ a { color: var(--accent); text-decoration: none; }
 @keyframes msgCrisp { 0% { opacity:0; animation-timing-function:step-end } 41% { opacity:1; animation-timing-function:step-end } 60% { opacity:0; animation-timing-function:step-end } 100% { opacity:0 } }
 @keyframes docSlop { 0% { opacity:0; animation-timing-function:step-end } 6% { opacity:1; animation-timing-function:step-end } 78% { opacity:0; animation-timing-function:step-end } 100% { opacity:0 } }
 @keyframes docCrisp { 0% { opacity:1; animation-timing-function:step-end } 6% { opacity:0; animation-timing-function:step-end } 78% { opacity:1; animation-timing-function:step-end } 100% { opacity:1 } }
-@keyframes selTidy { 0% { background:transparent; animation-timing-function:step-end } 6% { background:var(--sel-notes); animation-timing-function:step-end } 14% { background:transparent } 100% { background:transparent } }
-@keyframes selMsg { 0% { background:transparent; animation-timing-function:step-end } 33% { background:var(--sel-msg); animation-timing-function:step-end } 41% { background:transparent } 100% { background:transparent } }
-@keyframes selDocs { 0% { background:transparent; animation-timing-function:step-end } 70% { background:var(--sel-docs); animation-timing-function:step-end } 78% { background:transparent } 100% { background:transparent } }
+@keyframes selTidy { 0% { background:transparent; animation-timing-function:step-end } 4.4% { background:var(--sel-notes); animation-timing-function:step-end } 14% { background:transparent } 100% { background:transparent } }
+@keyframes selMsg { 0% { background:transparent; animation-timing-function:step-end } 31.4% { background:var(--sel-msg); animation-timing-function:step-end } 41% { background:transparent } 100% { background:transparent } }
+@keyframes selDocs { 0% { background:transparent; animation-timing-function:step-end } 68.4% { background:var(--sel-docs); animation-timing-function:step-end } 78% { background:transparent } 100% { background:transparent } }
 
 .uToast { position:absolute; left:50%; bottom:-12px; z-index:8; box-sizing:border-box; transform:translateX(-50%); display:inline-grid; grid-template-columns:minmax(0,1fr); place-items:center; padding:9px 18px; background:#17171a; border-radius:999px; box-shadow:0 22px 46px -18px rgba(0,0,0,0.62), inset 0 0 0 0.5px rgba(255,255,255,0.08); white-space:nowrap; overflow:hidden; opacity:0; }
 .uToast > * { grid-area:1/1; }
