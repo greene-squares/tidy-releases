@@ -182,6 +182,9 @@ a { color: var(--accent); text-decoration: none; }
 .docEditor { background: color-mix(in srgb, var(--winink) 4.5%, var(--winbg)); padding: 12px 26px 0; overflow: hidden; }
 .docPage { background: var(--winbg); box-shadow: 0 1px 4px rgba(14,14,16,0.14), inset 0 0 0 1px var(--winline); border-radius: 3px 3px 0 0; padding: 18px 30px; height: 100%; font-size: 15px; line-height: 1.6; }
 .docH1 { font-size: 19px; font-weight: 600; letter-spacing: -0.01em; color: var(--winink); margin-bottom: 10px; }
+/* The pill finishes widening before the confirmation text fades in. The other
+   order clips the longer label against a box still too narrow for it, which
+   reads as the text sliding rather than the pill growing around it. */
 /* The label stays put while the paragraph under it is de-slopped, so the
    demo reads as one section of a document rather than a floating quote. */
 .docTldr { font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--winmuted); margin-bottom: 5px; }
@@ -286,7 +289,7 @@ a { color: var(--accent); text-decoration: none; }
 @keyframes selMsg { 0% { background:transparent; animation-timing-function:step-end } 27% { background:var(--sel-msg); animation-timing-function:step-end } 37% { background:transparent } 100% { background:transparent } }
 @keyframes selDocs { 0% { background:transparent; animation-timing-function:step-end } 57% { background:var(--sel-docs); animation-timing-function:step-end } 74% { background:transparent } 100% { background:transparent } }
 
-.uToast { position:absolute; left:50%; bottom:-12px; z-index:8; box-sizing:border-box; transform:translateX(-50%); display:inline-grid; grid-template-columns:minmax(0,1fr); place-items:center; padding:9px 18px; background:#17171a; border-radius:999px; box-shadow:0 22px 46px -18px rgba(0,0,0,0.62), inset 0 0 0 0.5px rgba(255,255,255,0.08); white-space:nowrap; overflow:hidden; opacity:0; }
+.uToast { position:absolute; left:50%; bottom:-12px; z-index:8; box-sizing:border-box; transform:translateX(-50%); display:inline-grid; grid-template-columns:minmax(0,1fr); place-items:center; padding:9px 18px; background:#17171a; border-radius:999px; box-shadow:0 4px 14px -6px rgba(0,0,0,0.40), inset 0 0 0 0.5px rgba(255,255,255,0.08); white-space:nowrap; overflow:hidden; opacity:0; }
 .uToast > * { grid-area:1/1; }
 .uWork { display:inline-flex; align-items:center; }
 .uDone { color:#f4f4f5; font-size:13px; font-weight:500; letter-spacing:-0.01em; }
@@ -313,15 +316,15 @@ a { color: var(--accent); text-decoration: none; }
    appear until the pill has nearly finished growing, or it renders clipped
    inside an undersized pill for the whole morph — which is what read as
    janky. Widths are the measured content widths plus the 18px padding. */
-@keyframes uTidyShow { 0%,10.3% { opacity:0; transform:translateX(-50%) scale(0.94); width:80px } 11.3%,14% { opacity:1; transform:translateX(-50%) scale(1); width:80px; animation-timing-function:cubic-bezier(0.32,0.72,0,1) } 15.6%,17.5% { opacity:1; transform:translateX(-50%) scale(1); width:124px } 19%,100% { opacity:0; transform:translateX(-50%) scale(0.97); width:124px } }
-@keyframes uMsgShow { 0%,33.3% { opacity:0; transform:translateX(-50%) scale(0.94); width:110px } 34.3%,37% { opacity:1; transform:translateX(-50%) scale(1); width:110px; animation-timing-function:cubic-bezier(0.32,0.72,0,1) } 38.6%,40% { opacity:1; transform:translateX(-50%) scale(1); width:168px } 41.5%,100% { opacity:0; transform:translateX(-50%) scale(0.97); width:168px } }
-@keyframes uDocsShow { 0%,63.3% { opacity:0; transform:translateX(-50%) scale(0.94); width:110px } 64.3%,74% { opacity:1; transform:translateX(-50%) scale(1); width:110px; animation-timing-function:cubic-bezier(0.32,0.72,0,1) } 75.6%,78% { opacity:1; transform:translateX(-50%) scale(1); width:168px } 79.5%,100% { opacity:0; transform:translateX(-50%) scale(0.97); width:168px } }
-@keyframes uWorkTidy { 0%,14% { opacity:1 } 14.7%,100% { opacity:0 } }
-@keyframes uDoneTidy { 0%,14.55% { opacity:0 } 15.4%,100% { opacity:1 } }
-@keyframes uWorkMsg { 0%,37% { opacity:1 } 37.7%,100% { opacity:0 } }
-@keyframes uDoneMsg { 0%,37.55% { opacity:0 } 38.4%,100% { opacity:1 } }
-@keyframes uWorkDocs { 0%,74% { opacity:1 } 74.7%,100% { opacity:0 } }
-@keyframes uDoneDocs { 0%,74.55% { opacity:0 } 75.4%,100% { opacity:1 } }
+@keyframes uTidyShow { 0%,10.3% { opacity:0; transform:translateX(-50%) scale(0.94); width:80px } 11.3%,14.0% { opacity:1; transform:translateX(-50%) scale(1); width:80px; animation-timing-function:cubic-bezier(0.32,0.72,0,1) } 14.9%,17.5% { opacity:1; transform:translateX(-50%) scale(1); width:124px } 19.0%,100% { opacity:0; transform:translateX(-50%) scale(0.97); width:124px } }
+@keyframes uMsgShow { 0%,33.3% { opacity:0; transform:translateX(-50%) scale(0.94); width:110px } 34.3%,37.0% { opacity:1; transform:translateX(-50%) scale(1); width:110px; animation-timing-function:cubic-bezier(0.32,0.72,0,1) } 37.9%,40.0% { opacity:1; transform:translateX(-50%) scale(1); width:168px } 41.5%,100% { opacity:0; transform:translateX(-50%) scale(0.97); width:168px } }
+@keyframes uDocsShow { 0%,63.3% { opacity:0; transform:translateX(-50%) scale(0.94); width:110px } 64.3%,74.0% { opacity:1; transform:translateX(-50%) scale(1); width:110px; animation-timing-function:cubic-bezier(0.32,0.72,0,1) } 74.9%,78.0% { opacity:1; transform:translateX(-50%) scale(1); width:168px } 79.5%,100% { opacity:0; transform:translateX(-50%) scale(0.97); width:168px } }
+@keyframes uWorkTidy { 0%,14.0% { opacity:1 } 14.7%,100% { opacity:0 } }
+@keyframes uDoneTidy { 0%,14.95% { opacity:0 } 15.75%,100% { opacity:1 } }
+@keyframes uWorkMsg { 0%,37.0% { opacity:1 } 37.7%,100% { opacity:0 } }
+@keyframes uDoneMsg { 0%,37.95% { opacity:0 } 38.75%,100% { opacity:1 } }
+@keyframes uWorkDocs { 0%,74.0% { opacity:1 } 74.7%,100% { opacity:0 } }
+@keyframes uDoneDocs { 0%,74.95% { opacity:0 } 75.75%,100% { opacity:1 } }
 @keyframes tCaret { 0%,50% { opacity:1 } 51%,100% { opacity:0 } }
 
 .demo-kbd { margin-top: 4px; }
