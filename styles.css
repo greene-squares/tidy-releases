@@ -97,13 +97,37 @@ a { color: var(--accent); text-decoration: none; }
 .icon { position: relative; background: var(--iconbg); color: var(--iconink); font-family: 'JetBrains Mono', monospace; letter-spacing: -0.05em; display: flex; align-items: center; justify-content: center; }
 .icon::after { content:""; position:absolute; left:27%; right:27%; bottom:15%; height:13%; background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='10' viewBox='0 0 48 10'%3E%3Cpath d='M0 9 L8 2 L16 9 L24 2 L32 9 L40 2 L48 9' fill='none' stroke='%23e04b3f' stroke-width='2.4' stroke-linejoin='miter'/%3E%3C/svg%3E") center/100% 100% no-repeat; }
 .card { background: var(--panel); box-shadow: inset 0 0 0 1px var(--hair); }
+.notesApp { --sel-tint: var(--sel-notes); }
+.msgApp   { --sel-tint: var(--sel-msg); }
+.docsApp  { --sel-tint: var(--sel-docs); }
 .window { background: var(--winbg); border-radius: 20px; box-shadow: var(--shadow), inset 0 0 0 1px var(--hair); overflow: hidden; font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", system-ui, "Helvetica Neue", sans-serif; }
 .titlebar { display: flex; align-items: center; gap: 7px; height: 36px; padding: 0 14px; background: var(--winbar); border-bottom: 1px solid var(--winline); }
 .dot { width: 10px; height: 10px; border-radius: 50%; }
 .wintitle { flex:1; text-align:center; font-size:12px; font-weight:500; color:var(--winmuted); margin-right:36px; }
 .wavy { text-decoration: underline wavy #c4453a; text-underline-offset: 5px; }
 .h1 { font-size: 62px; font-weight: 600; line-height: 1.0; letter-spacing: -0.04em; }
-.h2 { font-size: 36px; font-weight: 600; letter-spacing: -0.03em; }
+/* The de-slop section repeats the hero's shape one step down: a heading, a
+   line of explanation, the shortcut, then the same demo. Two commands on one
+   screen read as one confusing product, so each gets its own stretch of page. */
+.h2 { font-size: 44px; font-weight: 600; line-height: 1.05; letter-spacing: -0.035em; max-width: 20ch; text-wrap: balance; }
+.sectionHead { padding: 76px 40px 0; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 18px; border-top: 1px solid var(--hair2); }
+.sectionHead .lede { color: var(--sec); font-size: 18px; line-height: 1.5; max-width: 52ch; margin: 0; text-wrap: pretty; }
+.deslopWrap { padding-top: 30px; }
+
+/* The shortcut, shown as keycaps rather than written out, so it reads the way
+   it looks on the keyboard below it. */
+.shortcutLine { display: flex; align-items: center; gap: 6px; }
+.kbdChip { display: inline-flex; align-items: center; justify-content: center;
+  min-width: 30px; height: 30px; padding: 0 8px; border-radius: 8px;
+  font-family: ui-monospace, Menlo, monospace; font-size: 14px; font-weight: 600;
+  color: var(--key-ink); background: linear-gradient(var(--key-a), var(--key-b));
+  box-shadow: var(--key-shadow); }
+@media (max-width: 880px) {
+  .h2 { font-size: 32px; }
+  .sectionHead { padding: 54px 22px 0; gap: 14px; }
+  .sectionHead .lede { font-size: 16px; }
+  .deslopWrap { padding-top: 22px; }
+}
 .grid-two { display: grid; grid-template-columns: 1fr; gap: 30px; }
 .grid-priv, .grid-mode { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; }
 .grid-fixes { display: grid; grid-template-columns: repeat(4,1fr); gap: 16px; }
@@ -114,9 +138,9 @@ a { color: var(--accent); text-decoration: none; }
 .demo { width: 100%; display: flex; flex-direction: column; align-items: center; gap: 56px; }
 .stage { width: 100%; max-width: 800px; position: relative; min-height: 272px; }
 .stage > .window { position: absolute; inset: 0; display: flex; flex-direction: column; will-change: transform, opacity, filter; }
-.stage > .winTidy { animation: rotNotes 28s linear infinite, fadeNotes 28s linear infinite; }
-.stage > .winMsg { animation: rotMsg 28s linear infinite, fadeMsg 28s linear infinite; }
-.stage > .winSlop { animation: rotDocs 28s linear infinite, fadeDocs 28s linear infinite; }
+.stage > .c1 { animation: rotNotes 28s linear infinite, fadeNotes 28s linear infinite; }
+.stage > .c2 { animation: rotMsg 28s linear infinite, fadeMsg 28s linear infinite; }
+.stage > .c3 { animation: rotDocs 28s linear infinite, fadeDocs 28s linear infinite; }
 .editor { flex: 1 1 auto; overflow: hidden; padding: 12px 26px; font-size: 17px; line-height: 1.55; color: var(--winink); }
 .edGrid { display: grid; align-content: start; }
 
@@ -265,15 +289,15 @@ a { color: var(--accent); text-decoration: none; }
   100% { opacity:1 }
 }
 
-.tdTypo { animation: tdTypo 28s ease-in-out infinite; }
-.tdCrisp { opacity: 0; animation: tdCrisp 28s ease-in-out infinite; }
-.msgSlop { animation: msgSlop 28s ease-in-out infinite; }
-.msgCrisp { opacity: 0; animation: msgCrisp 28s ease-in-out infinite; }
-.docSlop { animation: docSlop 28s ease-in-out infinite; }
-.docCrisp { opacity: 0; animation: docCrisp 28s ease-in-out infinite; }
-.tdTypo .hl { animation: selTidy 28s linear infinite; }
-.msgSlop .hl { animation: selMsg 28s linear infinite; }
-.docSlop .hl { animation: selDocs 28s linear infinite; }
+.c1 .before { animation: tdTypo 28s ease-in-out infinite; }
+.c1 .after { opacity: 0; animation: tdCrisp 28s ease-in-out infinite; }
+.c2 .before { animation: msgSlop 28s ease-in-out infinite; }
+.c2 .after { opacity: 0; animation: msgCrisp 28s ease-in-out infinite; }
+.c3 .before { animation: docSlop 28s ease-in-out infinite; }
+.c3 .after { opacity: 0; animation: docCrisp 28s ease-in-out infinite; }
+.c1 .before .hl { animation: selTidy 28s linear infinite; }
+.c2 .before .hl { animation: selMsg 28s linear infinite; }
+.c3 .before .hl { animation: selDocs 28s linear infinite; }
 /* The text swap is a hard cut, never a crossfade — a real in-place replacement
    happens between one frame and the next, so every stop here is step-end.
    Swap moments: Notes 14%, Messages 41%, Docs 87% (each just after its chord).
@@ -285,10 +309,15 @@ a { color: var(--accent); text-decoration: none; }
 @keyframes msgCrisp { 0% { opacity:0; animation-timing-function:step-end } 37% { opacity:1; animation-timing-function:step-end } 60% { opacity:0; animation-timing-function:step-end } 100% { opacity:0 } }
 @keyframes docSlop { 0% { opacity:0; animation-timing-function:step-end } 6% { opacity:1; animation-timing-function:step-end } 74% { opacity:0; animation-timing-function:step-end } 100% { opacity:0 } }
 @keyframes docCrisp { 0% { opacity:1; animation-timing-function:step-end } 6% { opacity:0; animation-timing-function:step-end } 74% { opacity:1; animation-timing-function:step-end } 100% { opacity:1 } }
-@keyframes selTidy { 0% { background:transparent; animation-timing-function:step-end } 4% { background:var(--sel-notes); animation-timing-function:step-end } 14% { background:transparent } 100% { background:transparent } }
-@keyframes selMsg { 0% { background:transparent; animation-timing-function:step-end } 27% { background:var(--sel-msg); animation-timing-function:step-end } 37% { background:transparent } 100% { background:transparent } }
-@keyframes selDocs { 0% { background:transparent; animation-timing-function:step-end } 57% { background:var(--sel-docs); animation-timing-function:step-end } 74% { background:transparent } 100% { background:transparent } }
+@keyframes selTidy { 0% { background:transparent; animation-timing-function:step-end } 4% { background:var(--sel-tint); animation-timing-function:step-end } 14% { background:transparent } 100% { background:transparent } }
+@keyframes selMsg { 0% { background:transparent; animation-timing-function:step-end } 27% { background:var(--sel-tint); animation-timing-function:step-end } 37% { background:transparent } 100% { background:transparent } }
+@keyframes selDocs { 0% { background:transparent; animation-timing-function:step-end } 57% { background:var(--sel-tint); animation-timing-function:step-end } 74% { background:transparent } 100% { background:transparent } }
 
+/* Measured from the rendered labels, plus a little slack: the working label
+   ("Tidying" / "De-slopping") and the confirmation differ in length between
+   the two sections, and a pill narrower than its text gets clipped. */
+.demo { --tw-a: 84px; --tw-b: 126px; }
+.deslopWrap .demo { --tw-a: 113px; --tw-b: 170px; }
 .uToast { position:absolute; left:50%; bottom:-12px; z-index:8; box-sizing:border-box; transform:translateX(-50%); display:inline-grid; grid-template-columns:minmax(0,1fr); place-items:center; padding:9px 18px; background:#17171a; border-radius:999px; box-shadow:0 4px 14px -6px rgba(0,0,0,0.40), inset 0 0 0 0.5px rgba(255,255,255,0.08); white-space:nowrap; overflow:hidden; opacity:0; }
 .uToast > * { grid-area:1/1; }
 .uWork { display:inline-flex; align-items:center; }
@@ -316,9 +345,9 @@ a { color: var(--accent); text-decoration: none; }
    appear until the pill has nearly finished growing, or it renders clipped
    inside an undersized pill for the whole morph — which is what read as
    janky. Widths are the measured content widths plus the 18px padding. */
-@keyframes uTidyShow { 0%,10.3% { opacity:0; transform:translateX(-50%) scale(0.94); width:80px } 11.3%,14.0% { opacity:1; transform:translateX(-50%) scale(1); width:80px; animation-timing-function:cubic-bezier(0.32,0.72,0,1) } 14.9%,17.5% { opacity:1; transform:translateX(-50%) scale(1); width:124px } 19.0%,100% { opacity:0; transform:translateX(-50%) scale(0.97); width:124px } }
-@keyframes uMsgShow { 0%,33.3% { opacity:0; transform:translateX(-50%) scale(0.94); width:110px } 34.3%,37.0% { opacity:1; transform:translateX(-50%) scale(1); width:110px; animation-timing-function:cubic-bezier(0.32,0.72,0,1) } 37.9%,40.0% { opacity:1; transform:translateX(-50%) scale(1); width:168px } 41.5%,100% { opacity:0; transform:translateX(-50%) scale(0.97); width:168px } }
-@keyframes uDocsShow { 0%,63.3% { opacity:0; transform:translateX(-50%) scale(0.94); width:110px } 64.3%,74.0% { opacity:1; transform:translateX(-50%) scale(1); width:110px; animation-timing-function:cubic-bezier(0.32,0.72,0,1) } 74.9%,78.0% { opacity:1; transform:translateX(-50%) scale(1); width:168px } 79.5%,100% { opacity:0; transform:translateX(-50%) scale(0.97); width:168px } }
+@keyframes uTidyShow { 0%,10.3% { opacity:0; transform:translateX(-50%) scale(0.94); width:var(--tw-a) } 11.3%,14.0% { opacity:1; transform:translateX(-50%) scale(1); width:var(--tw-a); animation-timing-function:cubic-bezier(0.32,0.72,0,1) } 14.9%,17.5% { opacity:1; transform:translateX(-50%) scale(1); width:var(--tw-b) } 19.0%,100% { opacity:0; transform:translateX(-50%) scale(0.97); width:var(--tw-b) } }
+@keyframes uMsgShow { 0%,33.3% { opacity:0; transform:translateX(-50%) scale(0.94); width:var(--tw-a) } 34.3%,37.0% { opacity:1; transform:translateX(-50%) scale(1); width:var(--tw-a); animation-timing-function:cubic-bezier(0.32,0.72,0,1) } 37.9%,40.0% { opacity:1; transform:translateX(-50%) scale(1); width:var(--tw-b) } 41.5%,100% { opacity:0; transform:translateX(-50%) scale(0.97); width:var(--tw-b) } }
+@keyframes uDocsShow { 0%,63.3% { opacity:0; transform:translateX(-50%) scale(0.94); width:var(--tw-a) } 64.3%,74.0% { opacity:1; transform:translateX(-50%) scale(1); width:var(--tw-a); animation-timing-function:cubic-bezier(0.32,0.72,0,1) } 74.9%,78.0% { opacity:1; transform:translateX(-50%) scale(1); width:var(--tw-b) } 79.5%,100% { opacity:0; transform:translateX(-50%) scale(0.97); width:var(--tw-b) } }
 @keyframes uWorkTidy { 0%,14.0% { opacity:1 } 14.7%,100% { opacity:0 } }
 @keyframes uDoneTidy { 0%,14.95% { opacity:0 } 15.75%,100% { opacity:1 } }
 @keyframes uWorkMsg { 0%,37.0% { opacity:1 } 37.7%,100% { opacity:0 } }
@@ -331,15 +360,13 @@ a { color: var(--accent); text-decoration: none; }
 .demo-kbd .key.kMod { animation: kbMod 28s ease-in-out infinite; }
 .demo-kbd .key.kCmd { animation: kbCmd 28s ease-in-out infinite; }
 .demo-kbd .key.kA { animation: kbA 28s ease-in-out infinite; }
-.demo-kbd .key.kT { animation: kbTapT 28s ease-in-out infinite; }
-.demo-kbd .key.kS { animation: kbTapS 28s ease-in-out infinite; }
+.demo-kbd .key.kLetter { animation: kbTapLetter 28s ease-in-out infinite; }
 @keyframes kbMod { 0% { transform:none; background:linear-gradient(var(--key-a),var(--key-b)); color:var(--key-ink); box-shadow:var(--key-shadow); } 7.2% { transform:none; background:linear-gradient(var(--key-a),var(--key-b)); color:var(--key-ink); box-shadow:var(--key-shadow); } 7.5% { transform:translateY(1.5px); background:linear-gradient(#e04b3f,#b8342a); color:#fff; box-shadow: inset 0 1px 3px rgba(0,0,0,0.28), 0 0 0 1px #a02b22, 0 0 16px rgba(224,75,63,0.6); } 10% { transform:translateY(1.5px); background:linear-gradient(#e04b3f,#b8342a); color:#fff; box-shadow: inset 0 1px 3px rgba(0,0,0,0.28), 0 0 0 1px #a02b22, 0 0 16px rgba(224,75,63,0.6); } 10.3% { transform:none; background:linear-gradient(var(--key-a),var(--key-b)); color:var(--key-ink); box-shadow:var(--key-shadow); } 30.2% { transform:none; background:linear-gradient(var(--key-a),var(--key-b)); color:var(--key-ink); box-shadow:var(--key-shadow); } 30.5% { transform:translateY(1.5px); background:linear-gradient(#e04b3f,#b8342a); color:#fff; box-shadow: inset 0 1px 3px rgba(0,0,0,0.28), 0 0 0 1px #a02b22, 0 0 16px rgba(224,75,63,0.6); } 33% { transform:translateY(1.5px); background:linear-gradient(#e04b3f,#b8342a); color:#fff; box-shadow: inset 0 1px 3px rgba(0,0,0,0.28), 0 0 0 1px #a02b22, 0 0 16px rgba(224,75,63,0.6); } 33.3% { transform:none; background:linear-gradient(var(--key-a),var(--key-b)); color:var(--key-ink); box-shadow:var(--key-shadow); } 60.2% { transform:none; background:linear-gradient(var(--key-a),var(--key-b)); color:var(--key-ink); box-shadow:var(--key-shadow); } 60.5% { transform:translateY(1.5px); background:linear-gradient(#e04b3f,#b8342a); color:#fff; box-shadow: inset 0 1px 3px rgba(0,0,0,0.28), 0 0 0 1px #a02b22, 0 0 16px rgba(224,75,63,0.6); } 63% { transform:translateY(1.5px); background:linear-gradient(#e04b3f,#b8342a); color:#fff; box-shadow: inset 0 1px 3px rgba(0,0,0,0.28), 0 0 0 1px #a02b22, 0 0 16px rgba(224,75,63,0.6); } 63.3% { transform:none; background:linear-gradient(var(--key-a),var(--key-b)); color:var(--key-ink); box-shadow:var(--key-shadow); } 100% { transform:none; background:linear-gradient(var(--key-a),var(--key-b)); color:var(--key-ink); box-shadow:var(--key-shadow); } }
 @keyframes kbCmd { 0% { transform:none; background:linear-gradient(var(--key-a),var(--key-b)); color:var(--key-ink); box-shadow:var(--key-shadow); } 3.7% { transform:none; background:linear-gradient(var(--key-a),var(--key-b)); color:var(--key-ink); box-shadow:var(--key-shadow); } 4% { transform:translateY(1.5px); background:linear-gradient(#e04b3f,#b8342a); color:#fff; box-shadow: inset 0 1px 3px rgba(0,0,0,0.28), 0 0 0 1px #a02b22, 0 0 16px rgba(224,75,63,0.6); } 6.5% { transform:translateY(1.5px); background:linear-gradient(#e04b3f,#b8342a); color:#fff; box-shadow: inset 0 1px 3px rgba(0,0,0,0.28), 0 0 0 1px #a02b22, 0 0 16px rgba(224,75,63,0.6); } 6.8% { transform:none; background:linear-gradient(var(--key-a),var(--key-b)); color:var(--key-ink); box-shadow:var(--key-shadow); } 7.2% { transform:none; background:linear-gradient(var(--key-a),var(--key-b)); color:var(--key-ink); box-shadow:var(--key-shadow); } 7.5% { transform:translateY(1.5px); background:linear-gradient(#e04b3f,#b8342a); color:#fff; box-shadow: inset 0 1px 3px rgba(0,0,0,0.28), 0 0 0 1px #a02b22, 0 0 16px rgba(224,75,63,0.6); } 10% { transform:translateY(1.5px); background:linear-gradient(#e04b3f,#b8342a); color:#fff; box-shadow: inset 0 1px 3px rgba(0,0,0,0.28), 0 0 0 1px #a02b22, 0 0 16px rgba(224,75,63,0.6); } 10.3% { transform:none; background:linear-gradient(var(--key-a),var(--key-b)); color:var(--key-ink); box-shadow:var(--key-shadow); } 26.7% { transform:none; background:linear-gradient(var(--key-a),var(--key-b)); color:var(--key-ink); box-shadow:var(--key-shadow); } 27% { transform:translateY(1.5px); background:linear-gradient(#e04b3f,#b8342a); color:#fff; box-shadow: inset 0 1px 3px rgba(0,0,0,0.28), 0 0 0 1px #a02b22, 0 0 16px rgba(224,75,63,0.6); } 29.5% { transform:translateY(1.5px); background:linear-gradient(#e04b3f,#b8342a); color:#fff; box-shadow: inset 0 1px 3px rgba(0,0,0,0.28), 0 0 0 1px #a02b22, 0 0 16px rgba(224,75,63,0.6); } 29.8% { transform:none; background:linear-gradient(var(--key-a),var(--key-b)); color:var(--key-ink); box-shadow:var(--key-shadow); } 30.2% { transform:none; background:linear-gradient(var(--key-a),var(--key-b)); color:var(--key-ink); box-shadow:var(--key-shadow); } 30.5% { transform:translateY(1.5px); background:linear-gradient(#e04b3f,#b8342a); color:#fff; box-shadow: inset 0 1px 3px rgba(0,0,0,0.28), 0 0 0 1px #a02b22, 0 0 16px rgba(224,75,63,0.6); } 33% { transform:translateY(1.5px); background:linear-gradient(#e04b3f,#b8342a); color:#fff; box-shadow: inset 0 1px 3px rgba(0,0,0,0.28), 0 0 0 1px #a02b22, 0 0 16px rgba(224,75,63,0.6); } 33.3% { transform:none; background:linear-gradient(var(--key-a),var(--key-b)); color:var(--key-ink); box-shadow:var(--key-shadow); } 56.7% { transform:none; background:linear-gradient(var(--key-a),var(--key-b)); color:var(--key-ink); box-shadow:var(--key-shadow); } 57% { transform:translateY(1.5px); background:linear-gradient(#e04b3f,#b8342a); color:#fff; box-shadow: inset 0 1px 3px rgba(0,0,0,0.28), 0 0 0 1px #a02b22, 0 0 16px rgba(224,75,63,0.6); } 59.5% { transform:translateY(1.5px); background:linear-gradient(#e04b3f,#b8342a); color:#fff; box-shadow: inset 0 1px 3px rgba(0,0,0,0.28), 0 0 0 1px #a02b22, 0 0 16px rgba(224,75,63,0.6); } 59.8% { transform:none; background:linear-gradient(var(--key-a),var(--key-b)); color:var(--key-ink); box-shadow:var(--key-shadow); } 60.2% { transform:none; background:linear-gradient(var(--key-a),var(--key-b)); color:var(--key-ink); box-shadow:var(--key-shadow); } 60.5% { transform:translateY(1.5px); background:linear-gradient(#e04b3f,#b8342a); color:#fff; box-shadow: inset 0 1px 3px rgba(0,0,0,0.28), 0 0 0 1px #a02b22, 0 0 16px rgba(224,75,63,0.6); } 63% { transform:translateY(1.5px); background:linear-gradient(#e04b3f,#b8342a); color:#fff; box-shadow: inset 0 1px 3px rgba(0,0,0,0.28), 0 0 0 1px #a02b22, 0 0 16px rgba(224,75,63,0.6); } 63.3% { transform:none; background:linear-gradient(var(--key-a),var(--key-b)); color:var(--key-ink); box-shadow:var(--key-shadow); } 100% { transform:none; background:linear-gradient(var(--key-a),var(--key-b)); color:var(--key-ink); box-shadow:var(--key-shadow); } }
 @keyframes kbA { 0% { transform:none; background:linear-gradient(var(--key-a),var(--key-b)); color:var(--key-ink); box-shadow:var(--key-shadow); } 3.7% { transform:none; background:linear-gradient(var(--key-a),var(--key-b)); color:var(--key-ink); box-shadow:var(--key-shadow); } 4% { transform:translateY(1.5px); background:linear-gradient(#e04b3f,#b8342a); color:#fff; box-shadow: inset 0 1px 3px rgba(0,0,0,0.28), 0 0 0 1px #a02b22, 0 0 16px rgba(224,75,63,0.6); } 6.5% { transform:translateY(1.5px); background:linear-gradient(#e04b3f,#b8342a); color:#fff; box-shadow: inset 0 1px 3px rgba(0,0,0,0.28), 0 0 0 1px #a02b22, 0 0 16px rgba(224,75,63,0.6); } 6.8% { transform:none; background:linear-gradient(var(--key-a),var(--key-b)); color:var(--key-ink); box-shadow:var(--key-shadow); } 26.7% { transform:none; background:linear-gradient(var(--key-a),var(--key-b)); color:var(--key-ink); box-shadow:var(--key-shadow); } 27% { transform:translateY(1.5px); background:linear-gradient(#e04b3f,#b8342a); color:#fff; box-shadow: inset 0 1px 3px rgba(0,0,0,0.28), 0 0 0 1px #a02b22, 0 0 16px rgba(224,75,63,0.6); } 29.5% { transform:translateY(1.5px); background:linear-gradient(#e04b3f,#b8342a); color:#fff; box-shadow: inset 0 1px 3px rgba(0,0,0,0.28), 0 0 0 1px #a02b22, 0 0 16px rgba(224,75,63,0.6); } 29.8% { transform:none; background:linear-gradient(var(--key-a),var(--key-b)); color:var(--key-ink); box-shadow:var(--key-shadow); } 56.7% { transform:none; background:linear-gradient(var(--key-a),var(--key-b)); color:var(--key-ink); box-shadow:var(--key-shadow); } 57% { transform:translateY(1.5px); background:linear-gradient(#e04b3f,#b8342a); color:#fff; box-shadow: inset 0 1px 3px rgba(0,0,0,0.28), 0 0 0 1px #a02b22, 0 0 16px rgba(224,75,63,0.6); } 59.5% { transform:translateY(1.5px); background:linear-gradient(#e04b3f,#b8342a); color:#fff; box-shadow: inset 0 1px 3px rgba(0,0,0,0.28), 0 0 0 1px #a02b22, 0 0 16px rgba(224,75,63,0.6); } 59.8% { transform:none; background:linear-gradient(var(--key-a),var(--key-b)); color:var(--key-ink); box-shadow:var(--key-shadow); } 100% { transform:none; background:linear-gradient(var(--key-a),var(--key-b)); color:var(--key-ink); box-shadow:var(--key-shadow); } }
 /* T is the tidy shortcut (⌃⌥⌘T) — Notes only, once per loop at 10%.
    S is de-slop (⌃⌥⌘S) — Messages at 37% and Docs at 83%. */
-@keyframes kbTapT { 0% { transform:none; background:linear-gradient(var(--key-a),var(--key-b)); color:var(--key-ink); box-shadow:var(--key-shadow); } 7.2% { transform:none; background:linear-gradient(var(--key-a),var(--key-b)); color:var(--key-ink); box-shadow:var(--key-shadow); } 7.5% { transform:translateY(1.5px); background:linear-gradient(#e04b3f,#b8342a); color:#fff; box-shadow: inset 0 1px 3px rgba(0,0,0,0.28), 0 0 0 1px #a02b22, 0 0 16px rgba(224,75,63,0.7); } 10% { transform:translateY(1.5px); background:linear-gradient(#e04b3f,#b8342a); color:#fff; box-shadow: inset 0 1px 3px rgba(0,0,0,0.28), 0 0 0 1px #a02b22, 0 0 16px rgba(224,75,63,0.7); } 10.3% { transform:none; background:linear-gradient(var(--key-a),var(--key-b)); color:var(--key-ink); box-shadow:var(--key-shadow); } 100% { transform:none; background:linear-gradient(var(--key-a),var(--key-b)); color:var(--key-ink); box-shadow:var(--key-shadow); } }
-@keyframes kbTapS { 0% { transform:none; background:linear-gradient(var(--key-a),var(--key-b)); color:var(--key-ink); box-shadow:var(--key-shadow); } 30.2% { transform:none; background:linear-gradient(var(--key-a),var(--key-b)); color:var(--key-ink); box-shadow:var(--key-shadow); } 30.5% { transform:translateY(1.5px); background:linear-gradient(#e04b3f,#b8342a); color:#fff; box-shadow: inset 0 1px 3px rgba(0,0,0,0.28), 0 0 0 1px #a02b22, 0 0 16px rgba(224,75,63,0.7); } 33% { transform:translateY(1.5px); background:linear-gradient(#e04b3f,#b8342a); color:#fff; box-shadow: inset 0 1px 3px rgba(0,0,0,0.28), 0 0 0 1px #a02b22, 0 0 16px rgba(224,75,63,0.7); } 33.3% { transform:none; background:linear-gradient(var(--key-a),var(--key-b)); color:var(--key-ink); box-shadow:var(--key-shadow); } 60.2% { transform:none; background:linear-gradient(var(--key-a),var(--key-b)); color:var(--key-ink); box-shadow:var(--key-shadow); } 60.5% { transform:translateY(1.5px); background:linear-gradient(#e04b3f,#b8342a); color:#fff; box-shadow: inset 0 1px 3px rgba(0,0,0,0.28), 0 0 0 1px #a02b22, 0 0 16px rgba(224,75,63,0.7); } 63% { transform:translateY(1.5px); background:linear-gradient(#e04b3f,#b8342a); color:#fff; box-shadow: inset 0 1px 3px rgba(0,0,0,0.28), 0 0 0 1px #a02b22, 0 0 16px rgba(224,75,63,0.7); } 63.3% { transform:none; background:linear-gradient(var(--key-a),var(--key-b)); color:var(--key-ink); box-shadow:var(--key-shadow); } 100% { transform:none; background:linear-gradient(var(--key-a),var(--key-b)); color:var(--key-ink); box-shadow:var(--key-shadow); } }
+@keyframes kbTapLetter { 0% { transform:none; background:linear-gradient(var(--key-a),var(--key-b)); color:var(--key-ink); box-shadow:var(--key-shadow); } 7.2% { transform:none; background:linear-gradient(var(--key-a),var(--key-b)); color:var(--key-ink); box-shadow:var(--key-shadow); } 7.5% { transform:translateY(1.5px); background:linear-gradient(#e04b3f,#b8342a); color:#fff; box-shadow: inset 0 1px 3px rgba(0,0,0,0.28), 0 0 0 1px #a02b22, 0 0 16px rgba(224,75,63,0.7); } 10% { transform:translateY(1.5px); background:linear-gradient(#e04b3f,#b8342a); color:#fff; box-shadow: inset 0 1px 3px rgba(0,0,0,0.28), 0 0 0 1px #a02b22, 0 0 16px rgba(224,75,63,0.7); } 10.3% { transform:none; background:linear-gradient(var(--key-a),var(--key-b)); color:var(--key-ink); box-shadow:var(--key-shadow); } 30.2% { transform:none; background:linear-gradient(var(--key-a),var(--key-b)); color:var(--key-ink); box-shadow:var(--key-shadow); } 30.5% { transform:translateY(1.5px); background:linear-gradient(#e04b3f,#b8342a); color:#fff; box-shadow: inset 0 1px 3px rgba(0,0,0,0.28), 0 0 0 1px #a02b22, 0 0 16px rgba(224,75,63,0.7); } 33% { transform:translateY(1.5px); background:linear-gradient(#e04b3f,#b8342a); color:#fff; box-shadow: inset 0 1px 3px rgba(0,0,0,0.28), 0 0 0 1px #a02b22, 0 0 16px rgba(224,75,63,0.7); } 33.3% { transform:none; background:linear-gradient(var(--key-a),var(--key-b)); color:var(--key-ink); box-shadow:var(--key-shadow); } 60.2% { transform:none; background:linear-gradient(var(--key-a),var(--key-b)); color:var(--key-ink); box-shadow:var(--key-shadow); } 60.5% { transform:translateY(1.5px); background:linear-gradient(#e04b3f,#b8342a); color:#fff; box-shadow: inset 0 1px 3px rgba(0,0,0,0.28), 0 0 0 1px #a02b22, 0 0 16px rgba(224,75,63,0.7); } 63% { transform:translateY(1.5px); background:linear-gradient(#e04b3f,#b8342a); color:#fff; box-shadow: inset 0 1px 3px rgba(0,0,0,0.28), 0 0 0 1px #a02b22, 0 0 16px rgba(224,75,63,0.7); } 63.3% { transform:none; background:linear-gradient(var(--key-a),var(--key-b)); color:var(--key-ink); box-shadow:var(--key-shadow); } 100% { transform:none; background:linear-gradient(var(--key-a),var(--key-b)); color:var(--key-ink); box-shadow:var(--key-shadow); } }
 
 .grid-why { display: grid; grid-template-columns: 1fr 1fr; gap: 34px 48px; }
 .divider { height: 1px; background: var(--hair2); }
@@ -428,5 +455,5 @@ a { color: var(--accent); text-decoration: none; }
    and 249px at 375px. One height covers the whole range. */
 @media (max-width: 880px) { .stage { min-height: 324px; } }
 
-@media (max-width: 480px) { .grid-fixes { grid-template-columns: 1fr; } .h1 { font-size: 38px; } }
+@media (max-width: 480px) { .h2 { font-size: 27px; } .grid-fixes { grid-template-columns: 1fr; } .h1 { font-size: 38px; } }
 @media (prefers-reduced-motion: reduce) { * { animation: none !important; } }
