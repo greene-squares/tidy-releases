@@ -104,6 +104,14 @@ a { color: var(--accent); text-decoration: none; }
 .titlebar { display: flex; align-items: center; gap: 7px; height: 36px; padding: 0 14px; background: var(--winbar); border-bottom: 1px solid var(--winline); }
 .dot { width: 10px; height: 10px; border-radius: 50%; }
 .wintitle { flex:1; text-align:center; font-size:12px; font-weight:500; color:var(--winmuted); margin-right:36px; }
+/* A Slack mention: the blue pill, not plain text. Tinted from the shared
+   --sel-docs blue so it sits in the palette in both themes. */
+.mention { color: #1264a3; background: rgba(18,100,163,0.10); border-radius: 4px;
+  padding: 0 2px; white-space: nowrap; }
+:root .mention { color: #1264a3; }
+:root[data-theme="dark"] .mention,
+html:not([data-theme="light"]) .mention { color: #7cc0f5; background: rgba(124,192,245,0.14); }
+
 .wavy { text-decoration: underline wavy #c4453a; text-underline-offset: 5px; }
 .h1 { font-size: 62px; font-weight: 600; line-height: 1.0; letter-spacing: -0.04em; }
 /* The de-slop section repeats the hero's shape one step down: a heading, a
