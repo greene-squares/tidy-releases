@@ -110,6 +110,34 @@ a { color: var(--accent); text-decoration: none; }
    line of explanation, the shortcut, then the same demo. Two commands on one
    screen read as one confusing product, so each gets its own stretch of page. */
 .h2 { font-size: 44px; font-weight: 600; line-height: 1.05; letter-spacing: -0.035em; max-width: 20ch; text-wrap: balance; }
+/* "Works in": real brand marks, monochrome, scrolling. Duplicated inline so
+   the track can translate a full row width and loop without a seam. Masked at
+   both edges so logos fade rather than being clipped mid-glyph. */
+.worksWrap { padding: 8px 40px 0; display: flex; flex-direction: column; align-items: center; gap: 14px; }
+.worksLabel { margin: 0; font-size: 13px; font-weight: 600; letter-spacing: 0.08em;
+  text-transform: uppercase; color: var(--ter); }
+.worksIn { width: 100%; max-width: 900px; overflow: hidden;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent); }
+.worksTrack { display: flex; align-items: center; gap: 44px; width: max-content;
+  animation: worksScroll 46s linear infinite; }
+.wiLogo { flex: none; display: block; color: var(--ter); opacity: 0.72;
+  transition: color .18s ease, opacity .18s ease; }
+.wiLogo svg { display: block; width: 26px; height: 26px; }
+.worksIn:hover .worksTrack { animation-play-state: paused; }
+.wiLogo:hover { color: var(--ink); opacity: 1; }
+/* Half, because the row is rendered twice. */
+@keyframes worksScroll { from { transform: translateX(0) } to { transform: translateX(-50%) } }
+@media (prefers-reduced-motion: reduce) {
+  .worksTrack { animation: none; flex-wrap: wrap; justify-content: center; width: auto; gap: 30px; }
+  .worksIn { -webkit-mask-image: none; mask-image: none; }
+}
+@media (max-width: 880px) {
+  .worksWrap { padding: 4px 22px 0; }
+  .worksTrack { gap: 32px; }
+  .wiLogo svg { width: 22px; height: 22px; }
+}
+
 .sectionHead { padding: 76px 40px 0; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 18px; border-top: 1px solid var(--hair2); }
 .sectionHead .lede { color: var(--sec); font-size: 18px; line-height: 1.5; max-width: 52ch; margin: 0; text-wrap: pretty; }
 .deslopWrap { padding-top: 30px; }
