@@ -118,10 +118,11 @@ html:not([data-theme="light"]) .mention { color: #9ad0f8; background: rgba(154,2
    line of explanation, the shortcut, then the same demo. Two commands on one
    screen read as one confusing product, so each gets its own stretch of page. */
 .h2 { font-size: 44px; font-weight: 600; line-height: 1.05; letter-spacing: -0.035em; max-width: 20ch; text-wrap: balance; }
-/* "Works in": app names rather than marks. Naming a product to state
-   compatibility needs no licence, and it reads at a glance where a row of
-   monochrome glyphs does not. Duplicated inline so the track can translate a
-   full row width and loop without a seam. */
+/* "Works in": the real brand mark locked up with the app name, so it is
+   recognisable at a glance and unambiguous when a mark is not. Marks are
+   flattened to a single ink and inherit currentColor, which keeps the strip
+   coherent and lets it follow the theme. Duplicated inline so the track can
+   translate a full row width and loop without a seam. */
 .worksWrap { padding: 26px 40px 44px; display: flex; flex-direction: column;
   align-items: center; gap: 16px; }
 .worksLabel { margin: 0; font-size: 12px; font-weight: 600; letter-spacing: 0.1em;
@@ -130,22 +131,24 @@ html:not([data-theme="light"]) .mention { color: #9ad0f8; background: rgba(154,2
   -webkit-mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent);
   mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent); }
 .worksTrack { display: flex; align-items: center; width: max-content;
-  animation: worksScroll 64s linear infinite; }
-.wiApp { flex: none; display: flex; align-items: center; font-size: 15px; font-weight: 500;
-  letter-spacing: -0.01em; color: var(--sec); white-space: nowrap; padding: 0 18px; }
-.wiApp::after { content: ""; width: 3px; height: 3px; border-radius: 50%;
-  background: var(--ter); opacity: 0.5; margin-left: 18px; }
+  animation: worksScroll 70s linear infinite; }
+.wiApp { flex: none; display: flex; align-items: center; gap: 9px; padding: 0 22px;
+  color: var(--sec); white-space: nowrap; }
+.wiMark { display: flex; width: 20px; height: 20px; opacity: 0.85; }
+.wiMark svg { width: 100%; height: 100%; display: block; }
+.wiName { font-size: 15px; font-weight: 500; letter-spacing: -0.01em; }
 .worksIn:hover .worksTrack { animation-play-state: paused; }
 /* Half, because the row is rendered twice. */
 @keyframes worksScroll { from { transform: translateX(0) } to { transform: translateX(-50%) } }
 @media (prefers-reduced-motion: reduce) {
-  .worksTrack { animation: none; flex-wrap: wrap; justify-content: center; width: auto; }
+  .worksTrack { animation: none; flex-wrap: wrap; justify-content: center; width: auto; row-gap: 14px; }
   .worksIn { -webkit-mask-image: none; mask-image: none; }
 }
 @media (max-width: 880px) {
   .worksWrap { padding: 18px 22px 32px; }
-  .wiApp { font-size: 13.5px; padding: 0 12px; }
-  .wiApp::after { margin-left: 12px; }
+  .wiApp { padding: 0 14px; gap: 7px; }
+  .wiName { font-size: 13.5px; }
+  .wiMark { width: 17px; height: 17px; }
 }
 
 .sectionHead { padding: 76px 40px 0; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 18px; border-top: 1px solid var(--hair2); }
