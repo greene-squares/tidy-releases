@@ -118,37 +118,36 @@ html:not([data-theme="light"]) .mention { color: #9ad0f8; background: rgba(154,2
    line of explanation, the shortcut, then the same demo. Two commands on one
    screen read as one confusing product, so each gets its own stretch of page. */
 .h2 { font-size: 44px; font-weight: 600; line-height: 1.05; letter-spacing: -0.035em; max-width: 20ch; text-wrap: balance; }
-/* "Works in": the real brand mark locked up with the app name, so it is
-   recognisable at a glance and unambiguous when a mark is not. Marks are
-   flattened to a single ink and inherit currentColor, which keeps the strip
-   coherent and lets it follow the theme. Duplicated inline so the track can
-   translate a full row width and loop without a seam. */
-.worksWrap { padding: 26px 40px 44px; display: flex; flex-direction: column;
-  align-items: center; gap: 16px; }
+/* "Works in": each brand's actual logo, taken from Wikimedia Commons where
+   they are public domain as text logos. Wordmarks and icons cannot share a
+   height without the icons looking tiny, so wide marks are sized by height and
+   square ones get a little more. Duplicated inline so the track can translate a
+   full row width and loop without a seam. */
+.worksWrap { padding: 26px 40px 46px; display: flex; flex-direction: column;
+  align-items: center; gap: 18px; }
 .worksLabel { margin: 0; font-size: 12px; font-weight: 600; letter-spacing: 0.1em;
   text-transform: uppercase; color: var(--ter); }
-.worksIn { width: 100%; max-width: 940px; overflow: hidden;
-  -webkit-mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent);
-  mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent); }
+.worksIn { width: 100%; max-width: 960px; overflow: hidden;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 9%, #000 91%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 9%, #000 91%, transparent); }
 .worksTrack { display: flex; align-items: center; width: max-content;
-  animation: worksScroll 70s linear infinite; }
-.wiApp { flex: none; display: flex; align-items: center; gap: 9px; padding: 0 22px;
-  color: var(--sec); white-space: nowrap; }
-.wiMark { display: flex; width: 20px; height: 20px; opacity: 0.85; }
-.wiMark svg { width: 100%; height: 100%; display: block; }
-.wiName { font-size: 15px; font-weight: 500; letter-spacing: -0.01em; }
+  animation: worksScroll 78s linear infinite; }
+.wiLogo { flex: none; display: flex; align-items: center; padding: 0 26px; }
+.wiLogo svg { display: block; width: auto; }
+.wiWide svg { height: 24px; }
+.wiSquare svg { height: 30px; }
 .worksIn:hover .worksTrack { animation-play-state: paused; }
 /* Half, because the row is rendered twice. */
 @keyframes worksScroll { from { transform: translateX(0) } to { transform: translateX(-50%) } }
 @media (prefers-reduced-motion: reduce) {
-  .worksTrack { animation: none; flex-wrap: wrap; justify-content: center; width: auto; row-gap: 14px; }
+  .worksTrack { animation: none; flex-wrap: wrap; justify-content: center; width: auto; row-gap: 20px; }
   .worksIn { -webkit-mask-image: none; mask-image: none; }
 }
 @media (max-width: 880px) {
-  .worksWrap { padding: 18px 22px 32px; }
-  .wiApp { padding: 0 14px; gap: 7px; }
-  .wiName { font-size: 13.5px; }
-  .wiMark { width: 17px; height: 17px; }
+  .worksWrap { padding: 18px 22px 34px; }
+  .wiLogo { padding: 0 16px; }
+  .wiWide svg { height: 19px; }
+  .wiSquare svg { height: 24px; }
 }
 
 .sectionHead { padding: 76px 40px 0; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 18px; border-top: 1px solid var(--hair2); }
