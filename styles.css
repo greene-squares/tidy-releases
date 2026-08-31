@@ -118,36 +118,6 @@ html:not([data-theme="light"]) .mention { color: #9ad0f8; background: rgba(154,2
    line of explanation, the shortcut, then the same demo. Two commands on one
    screen read as one confusing product, so each gets its own stretch of page. */
 .h2 { font-size: 44px; font-weight: 600; line-height: 1.05; letter-spacing: -0.035em; max-width: 20ch; text-wrap: balance; }
-/* "Works in": each app's actual wordmark, flattened to a single ink so the
-   strip reads as one thing and follows the theme. Sized by height, so a wide
-   wordmark simply takes more room. Duplicated inline so the track can
-   translate a full row width and loop without a seam. */
-.worksWrap { padding: 26px 40px 46px; display: flex; flex-direction: column;
-  align-items: center; gap: 18px; }
-.worksLabel { margin: 0; font-size: 12px; font-weight: 600; letter-spacing: 0.1em;
-  text-transform: uppercase; color: var(--ter); }
-.worksIn { width: 100%; max-width: 960px; overflow: hidden;
-  -webkit-mask-image: linear-gradient(90deg, transparent, #000 9%, #000 91%, transparent);
-  mask-image: linear-gradient(90deg, transparent, #000 9%, #000 91%, transparent); }
-.worksTrack { display: flex; align-items: center; width: max-content;
-  animation: worksScroll 82s linear infinite; }
-.wiLogo { flex: none; display: flex; align-items: center; padding: 0 26px;
-  color: var(--sec); opacity: 0.82; transition: opacity .18s ease, color .18s ease; }
-.wiLogo:hover { color: var(--ink); opacity: 1; }
-.wiLogo svg { display: block; height: 22px; width: auto; }
-.worksIn:hover .worksTrack { animation-play-state: paused; }
-/* Half, because the row is rendered twice. */
-@keyframes worksScroll { from { transform: translateX(0) } to { transform: translateX(-50%) } }
-@media (prefers-reduced-motion: reduce) {
-  .worksTrack { animation: none; flex-wrap: wrap; justify-content: center; width: auto; row-gap: 20px; }
-  .worksIn { -webkit-mask-image: none; mask-image: none; }
-}
-@media (max-width: 880px) {
-  .worksWrap { padding: 18px 22px 34px; }
-  .wiLogo { padding: 0 16px; }
-  .wiLogo svg { height: 17px; }
-}
-
 .sectionHead { padding: 76px 40px 0; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 18px; border-top: 1px solid var(--hair2); }
 .sectionHead .lede { color: var(--sec); font-size: 18px; line-height: 1.5; max-width: 52ch; margin: 0; text-wrap: pretty; }
 .deslopWrap { padding-top: 30px; }
