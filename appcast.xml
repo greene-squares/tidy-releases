@@ -9,7 +9,7 @@
             <sparkle:shortVersionString>0.4.2</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>26.0</sparkle:minimumSystemVersion>
             <sparkle:hardwareRequirements>arm64</sparkle:hardwareRequirements>
-            <enclosure url="https://github.com/greene-squares/tidy-releases/releases/latest/download/Tidy.dmg" length="2153812" type="application/octet-stream" sparkle:edSignature="dDjjU7LW37MSYCDQef7iuwMh9qetoT+dpmBuNeEHpcpBFfsCSxNlbVuykBi8P+Z4MK4Ib1geMvpbo65CjCvSAQ=="/>
+            <enclosure url="https://github.com/greene-squares/tidy-releases/releases/download/v0.4.2/Tidy-0.4.2.dmg" length="2153812" type="application/octet-stream" sparkle:edSignature="dDjjU7LW37MSYCDQef7iuwMh9qetoT+dpmBuNeEHpcpBFfsCSxNlbVuykBi8P+Z4MK4Ib1geMvpbo65CjCvSAQ=="/>
         </item>
     </channel>
 </rss>
