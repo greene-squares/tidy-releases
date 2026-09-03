@@ -465,3 +465,18 @@ html:not([data-theme="light"]) .mention { color: #9ad0f8; background: rgba(154,2
 
 @media (max-width: 480px) { .h2 { font-size: 27px; } .grid-fixes { grid-template-columns: 1fr; } .h1 { font-size: 38px; } }
 @media (prefers-reduced-motion: reduce) { * { animation: none !important; } }
+
+/* Product Hunt launch badge. Two SVGs rather than one, because the badge is a
+   raster-like asset from their API with the theme baked in: it cannot inherit
+   our tokens. Swapped on the same three states the palette uses, so it follows
+   an explicit choice AND the system default rather than only one of them. */
+.phBadge { margin-top: 4px; line-height: 0; display: inline-block; }
+.phBadge img { display: block; }
+.ph-light { display: none; }
+.ph-dark  { display: block; }
+:root[data-theme="light"] .ph-light { display: block; }
+:root[data-theme="light"] .ph-dark  { display: none; }
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) .ph-light { display: block; }
+  :root:not([data-theme="dark"]) .ph-dark  { display: none; }
+}
