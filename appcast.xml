@@ -3,13 +3,13 @@
     <channel>
         <title>Tidy</title>
         <item>
-            <title>0.4.2</title>
-            <pubDate>Tue, 01 Sep 2026 16:43:52 +0100</pubDate>
-            <sparkle:version>12</sparkle:version>
-            <sparkle:shortVersionString>0.4.2</sparkle:shortVersionString>
+            <title>0.4.3</title>
+            <pubDate>Tue, 29 Sep 2026 14:09:58 +0100</pubDate>
+            <sparkle:version>13</sparkle:version>
+            <sparkle:shortVersionString>0.4.3</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>26.0</sparkle:minimumSystemVersion>
             <sparkle:hardwareRequirements>arm64</sparkle:hardwareRequirements>
-            <enclosure url="https://github.com/greene-squares/tidy-releases/releases/download/v0.4.2/Tidy-0.4.2.dmg" length="2153812" type="application/octet-stream" sparkle:edSignature="dDjjU7LW37MSYCDQef7iuwMh9qetoT+dpmBuNeEHpcpBFfsCSxNlbVuykBi8P+Z4MK4Ib1geMvpbo65CjCvSAQ=="/>
+            <enclosure url="https://github.com/greene-squares/tidy-releases/releases/download/v0.4.3/Tidy-0.4.3.dmg" length="2176672" type="application/octet-stream" sparkle:edSignature="ZmakBiBW7kO+Ij3lhKEu0F2Wdv5GBBECCgXA17zC30LnW7EsTVHzMOfaT6SrTG5/e9x0PFVkvW4JTsrzEbsgAw=="/>
         </item>
     </channel>
 </rss>
